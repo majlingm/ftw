@@ -2,7 +2,7 @@
 <html lang="en"> 
 	<head> 
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8" /> 
-		<title>Test</title>	
+		<title>FTW</title>	
 		<script src="htdoc/js/lib/jquery-1.6.2.js"></script>
 	</head>
 	<body>
