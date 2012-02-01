@@ -4,9 +4,6 @@ defined('API_GUARD') or die('Skyddad åtkomst');
 
 /**
  * Interface, or abstract marker class, for application controllers.
- *
- * @author Anders O Johansson
- * @abstract
  */
 class Controller {
     
