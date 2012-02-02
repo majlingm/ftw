@@ -1,22 +1,10 @@
 
-var dataSettings = {
-	"title": { "update":4000,
-				"preFetch":false,
-				"url":"http://localhost/title.json"
-			 },
-	"name":  { "update":false,
-				"preFetch":false,
-				"url":"http://localhost/name.json"
-			 }
-	};
-
-
 
 //Holds all the data for the site, controls if data needs to be updated, if it should be prefetched etc.
 //It should be the only object that polls the server for data.
-function dataHandler(settings){
+function GetDataHandler(settings){
 
-	var preFetchAllData = true;
+	var preFetchAllData = false;
 	var me = {};
 
 
@@ -24,7 +12,7 @@ function dataHandler(settings){
 		$.each(settings, function(dataName, s){
 			
 			if(s.preFetch || preFetchAllData){
-				pollUrl(dataName, function{}());
+				pollUrl(dataName, function(){});
 			}
 
 			if(typeof s.update === 'number' && s.update > 0) {
@@ -57,7 +45,7 @@ function dataHandler(settings){
 			if(typeof settings[dataName].data === 'undefined'){
 				pollUrl(dataName, cb);
 			} else {
-				settings[dataName].data
+				cb(settings[dataName].data);
 			}
 
 
@@ -74,9 +62,9 @@ function dataHandler(settings){
 	}
 
 	//bind an object to given set if data, updating the object everytime the data is updated.
-	function bindToData(f, dataName){
-		
-		if(typeof settings[name] !== 'undefined') { 
+	function bindTo(dataName, f){
+	
+		if(typeof settings[dataName] !== 'undefined') { 
 			if(typeof settings[dataName].bound === 'undefined'){
 				settings[dataName].bound = [];
 				settings[dataName].bound.push(f);
@@ -86,7 +74,7 @@ function dataHandler(settings){
 		}
 	}
 
-	functin error(message, cb){
+	function error(message, cb){
 		data = {};
 		data.result = "error";
 		data.error = message + "!";
@@ -95,20 +83,30 @@ function dataHandler(settings){
 
 	//main poll method, should be kept private
 	function pollUrl(dataName, cb){
-		var s = settings[dataName];
-
-		settings[dataName].data = {"data":"test"};
-
-		//poll server here
+		$.get(settings[dataName].url, function(data) {
+		  settings[dataName].data = data;
+		  cb(data);
+		  console.log(data.result);
+		});
 	}
 
 	init();
 
+	me = {
+		"bindTo":bindTo, 
+		"getData":getData
+	};
+
 
 	function extend(obj){
-		$(me).extend(obj);
+		$.extend(me, obj);
 	}
 
 
 	return me;
+}
+
+//Here goes the functionality for sending data 
+function PostDataHandler(){
+	
 }
