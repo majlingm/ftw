@@ -1,8 +1,9 @@
 
 
+ 
 //Holds all the data for the site, controls if data needs to be updated, if it should be prefetched etc.
 //It should be the only object that polls the server for data.
-function GetDataHandler(settings){
+function GetDataHandler(settings){ //@TODO add method to update the instansiated object with new settings
 
 	var preFetchAllData = false;
 	var me = {};
