@@ -41,8 +41,16 @@ function unescape(&$value) {
     }
 }
 
-function result($value){
-    $result = array("result" => $value);
+function result($message, $arr = array()){
+    //add logging here
+    $result = array_merge(array("result" => $message, "error" => "false"), $arr);
+    echo json_encode($result);
+    exit;
+}
+
+function failed($message){
+    //add error logging here
+    $result = array_merge(array("result" => $message, "error" => "true"));
     echo json_encode($result);
     exit;
 }

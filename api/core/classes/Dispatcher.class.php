@@ -125,14 +125,6 @@ class Dispatcher {
       	$controller->{$action}($_GET);  
     }
 
-    function failed() {
-        
-        result("failed");
-        /*$failure = array("result" => "error");
-        echo json_encode($failure);
-        exit;*/
-    }
-
     function fileNotFound() {
         @header("HTTP/1.0 404 Not Found");
         include(FILE_NOT_FOUND);

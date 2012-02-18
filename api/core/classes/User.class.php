@@ -13,42 +13,40 @@ class User {
 
     //load the inifile with controller definitions
     public function __construct() {
-        
+
         if(!isset($_SESSION)){
             session_start();
             
             if(!isset($_SESSION['access_level'])) {
                 $_SESSION['access_level'] = 0;
+                $_SESSION['user'] = "";
+                $_SESSION['logged_in'] = false;
             }   
         }
     }
 
     function login($username, $password){
         
-        /*if($username == "micke" && $password == "hej"){
-            $_SESSION['access_level'] = 9;
-            return true;
-        }*/
-
         $sql = "
             SELECT
                 password,
-                access_level
+                user_level
             FROM
-                user
+                Users
             WHERE
-                name = '" . $username . "'";
-
+                username = '" . $username . "'";
         $result_array = Database::query($sql);
         $result = $result_array->next();
         
-        if($password == $result['password']){
-                $_SESSION['access_level'] = $result['access_level'];
-                echo json_encode(array('result' => 'logged in', 'access_level' => $result['access_level']));
+        if(isset($password) && isset($result['password']) && crypt($password, SALT) == $result['password']){
+                $_SESSION['access_level'] = $result['user_level'];
+                $_SESSION['user'] = $username;
+                $_SESSION['logged_in'] = true;
+                echo json_encode(array('result' => 'logged in', 'username' => $username, 'user_level' => $result['user_level']));
                 return true;
             }
 
-        result("unable to login");
+        failed("unable to login");
         
         return false;
     }
@@ -58,10 +56,10 @@ class User {
     }
 
     function logout(){
-        $this->user = "";
-        $this->loggedIn = false;
-        $this->accessLevel = 0;
-        session_destroy();   
+        $_SESSION['access_level'] = 0;
+        $_SESSION['user'] = "";
+        $_SESSION['logged_in'] = false;
+        //session_destroy();   
     }
 }
 ?>

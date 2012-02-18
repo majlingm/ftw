@@ -54,6 +54,11 @@ define('CLASSES', APP . 'classes/');
 define('MODELS', APP.  'models/');
 
 /**
+*	The salt to be used when crypting passwords
+*/
+define('SALT', '$@');
+
+/**
  * The default template path. An application can override this or ignore this 
  * constant as it only should be seen as a recommendation. This directory will 
  * be placed on the include path.
