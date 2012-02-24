@@ -4,14 +4,16 @@ var settings = {
 };
 
 var dataSettings = {
-	"title": { "update":2000000,
-				"preFetch":false,
-				"url":"title.json",
-				"send_data":false
-			 },
-	"name":  { "update":false,
-				"preFetch":false,
-				"url":"name.json",
-				"send_data":false
-			 }
+	"getMenuContainer":{ "update":false,
+					     "preFetch":false,
+					     "url":settings.api + "?action=getMenuContainer"
+			 		   },
+	"getMenuItems":		{"update":false,
+						 "preFetch":false,
+						 "url":settings.api + "?action=getMenuItems"
+				 		},
+	"getContentItems":	{"update":false,
+						 "preFetch":false,
+						 "url":settings.api + "?action=getContentItems"
+				 		}
 };

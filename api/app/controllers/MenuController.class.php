@@ -17,13 +17,16 @@ class MenuController {
             SELECT
                Menu_items.name, 
                Menu_items.link, 
-               Menu_items.order,
-               Menu_items.access_level 
+               Menu_items.sort_order,
+               Menu_items.access_level,
+               Menu_items.hidden
             FROM
                 Menus, Menu_items
             WHERE
                 Menus.html_id = '" . $parameters['id'] . "' 
-                AND Menus.id = Menu_items.Menus_id" ;
+                AND Menus.id = Menu_items.Menus_id
+                AND Menu_items.hidden IS NULL
+                OR Menu_items.hidden != 'true'" ;
 
         $result_array = Database::query($sql);
         $menu_items = array();
@@ -62,5 +65,59 @@ class MenuController {
         return false;
     }
 
-   
+
+    function addMenuItem(&$parameters){
+
+        $sql = "INSERT INTO
+                    Menu_items (name, Menus_id)
+                VALUES 
+                    ('" . $parameters['name'] . "', (SELECT Menus.id FROM Menus WHERE Menus.html_id = '" . $parameters['html_id'] . "'))";
+            
+        $result = Database::query($sql);
+
+        if($result) {
+            result("Item added", array('id' => mysql_insert_id()));
+        } else {
+            failed("unable to add item");
+        }
+    }
+
+
+    function hideMenuItem(&$parameters){
+
+        $sql = "UPDATE
+                    Menu_items
+                SET 
+                    hidden='true'
+                WHERE
+                    name = '" . $parameters['name'] . "'";
+            
+        $result = Database::query($sql);
+        
+        if($result) {
+            result("Item hidden");
+        } else {
+            failed("unable to hide item");
+        }
+    }
+
+
+     function showMenuItem(&$parameters){
+
+        $sql = "UPDATE
+                    Menu_items
+                SET 
+                    hidden='false'
+                WHERE
+                    name = '" . $parameters['name'] . "'";
+            
+        $result = Database::query($sql);
+        
+        if($result) {
+            result("Item visible");
+        } else {
+            failed("unable to show item");
+        }
+    }
+
 }

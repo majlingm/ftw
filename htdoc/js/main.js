@@ -1,9 +1,12 @@
 
+var ph = new PageHandler();
 var gdh = new GetDataHandler(dataSettings);
 var user = {};
 
 $(function(){
 
+
+	
 	user = new User(function(){
 		enableKeyShotcut();
 		enableLoginScreen();
@@ -12,8 +15,31 @@ $(function(){
 		if(user.isLoggedIn()){
 			showTopBar();
 		}
+
+		ph.populateMenus($('body'));
 	});
 
+/*just for fun*/
+var img = $("#bg_holder img");
+var imgHeight = img.height();
+var docHeight = $(document).height() - 350;
+var ratio = 1;
+var scrolled = 0;
+console.log("img: " + imgHeight);
+console.log("doc: " + docHeight);
+$(document).scroll(function(){
+	imgHeight = $("#bg_holder img").height();
+	docHeight = $(document).height() - 350;
+	ratio = imgHeight/docHeight;
+	scrolled = $(document).scrollTop();
+
+	img.css('margin-top', - (ratio * scrolled)/60);
+	console.log(ratio * scrolled);
+	//$(document).scrollTop();
+});
+
+
+/*fun ends*/
 
 });
 
@@ -69,7 +95,7 @@ $(function(){
 						showTopBar();
 					});
 				} else {
-
+					
 				}
 			
 			});
@@ -79,13 +105,38 @@ $(function(){
 
 	function enableTopBar(){
 		topBar = $("#topbar");
+		var menuItems = topBar.find("#admin_menu li");
+		var toolboxButtons = topBar.find("#toolbox li");
 
 		topBar.find("#logout_button").click(function(){
 			user.logout(function(){
 				hideTopBar();
 			});
 		});
-		
+
+		toolboxButtons.click(function(){
+			
+			var clicked = $(this);
+			if(clicked.attr('id') == 'save'){
+				ph.save();
+			}
+
+		});
+
+		menuItems.click(function(){
+			
+			var clicked = $(this);
+			menuItems.removeClass('current');
+			clicked.addClass('current');
+
+			if(clicked.hasClass('edit')){
+				ph.enterEditMode();
+			} else if(clicked.hasClass('home')){
+				ph.exitEditMode();
+			}
+						
+		});
+	
 	}	
 
 	function showTopBar(){
@@ -133,7 +184,40 @@ $(function(){
 
 function PageHandler(){
 	
+	var menus = [];
+	var menuContainer = "";
 
+	function populateMenus(parent, cb) {
+		m = parent.find(".menu");
+		$.each(m, function(i, menu){
+			menus.push(new Menu($(menu)));
+		});	
+	}
+
+	function save(){
+		$.each(menus, function(i, menu){
+			menu.save();
+		});
+	}
+
+	function enterEditMode(){
+		$.each(menus, function(i, menu){
+			menu.enterEditMode();
+		});
+	}
+
+	function exitEditMode(){
+		$.each(menus, function(i, menu){
+			menu.exitEditMode();
+		});
+	}
+
+	return {
+		"populateMenus":populateMenus,
+		"enterEditMode":enterEditMode,
+		"exitEditMode":exitEditMode,
+		"save":save
+	};
 
 }
 

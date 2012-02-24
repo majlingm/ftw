@@ -1,9 +1,9 @@
 
 
- 
+
 //Holds all the data for the site, controls if data needs to be updated, if it should be prefetched etc.
 //It should be the only object that polls the server for data.
-function GetDataHandler(settings){ //@TODO add method to update the instansiated object with new settings
+function GetDataHandler(settings){ //@TODO add method to update the instansiated object with new settings, fixa så att objektet håller flera olika data för varje poll, beroende på indata
 
 	var preFetchAllData = false;
 	var me = {};
@@ -12,14 +12,17 @@ function GetDataHandler(settings){ //@TODO add method to update the instansiated
 	function init(){
 		$.each(settings, function(dataName, s){
 			
+			s.polling = {};
+			s.data = {};
+			
 			if(s.preFetch || preFetchAllData){
-				pollUrl(dataName, function(){});
+				pollUrl(dataName, {}, function(){});
 			}
 
 			if(typeof s.update === 'number' && s.update > 0) {
 				
 				settings[dataName].interval = setInterval(function(){
-					pollUrl(dataName, function(data){
+					pollUrl(dataName, {}, function(data){
 						
 						settings[dataName].data = data;
 						if(typeof settings[dataName].bound != 'undefined'){
@@ -37,18 +40,28 @@ function GetDataHandler(settings){ //@TODO add method to update the instansiated
 	}
 
 	//get the data for the given name
-	function getData(dataName, cb){
+	function getData(dataName, sendData ,cb){
 		
-		var data;
-
 		if(typeof settings[dataName] !== 'undefined') {
 
-			if(typeof settings[dataName].data === 'undefined'){
-				pollUrl(dataName, cb);
-			} else {
-				cb(settings[dataName].data);
+			var key = serializeObject(sendData);
+
+			if(settings[dataName].polling[key]) {
+				//Already asking the server for that data, retry in 100ms
+				setTimeout(function(){
+					getData(dataName, sendData ,cb);
+				}, 100);
+				return false;	
 			}
 
+			if(typeof settings[dataName].data[key] === 'undefined'){
+				settings[dataName].polling[key] = true;
+				pollUrl(dataName, sendData || {}, cb);
+				console.log("poll " + dataName);
+			} else {
+				cb(settings[dataName].data[key]);
+				console.log("using stored " + dataName);
+			}
 
 		} else {
 			console.error("no settings for that data");
@@ -83,12 +96,13 @@ function GetDataHandler(settings){ //@TODO add method to update the instansiated
 	}
 
 	//main poll method, should be kept private
-	function pollUrl(dataName, cb){
-		$.get(settings[dataName].url, function(data) {
-		  settings[dataName].data = data;
+	function pollUrl(dataName, sendData, cb){
+		$.get(settings[dataName].url, sendData || {}, function(data) {
+		  var key = serializeObject(sendData);
+		  settings[dataName].data[key] = data;
+		  settings[dataName].polling[key] = false;
 		  cb(data);
-		  console.log(data.result);
-		});
+		}, 'json');
 	}
 
 	init();
@@ -106,6 +120,18 @@ function GetDataHandler(settings){ //@TODO add method to update the instansiated
 
 	return me;
 }
+
+function serializeObject(obj){
+	
+	var outputString = "";
+	
+	$.each(obj, function(key, value){
+		outputString += key + value;
+	});
+
+	return outputString;
+}
+
 
 //Here goes the functionality for sending data 
 function PostDataHandler(){
