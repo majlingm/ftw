@@ -50,7 +50,7 @@
 	<div id="wrapper">
 		<div id="bg_holder"><img src="htdoc/img/naruto.jpg"></img></div>
 		<div id="inner_wrapper">
-			<ul id="main_menu" class="menu">
+			<ul id="main_menu" data-container="content" class="menu">
 			</ul>
 
 			<div id="content"></div>

@@ -54,4 +54,14 @@ function failed($message){
     echo json_encode($result);
     exit;
 }
+
+function  escape_array_callback(&$item, $key) { 
+    $item = mysql_real_escape_string($item);
+}
+
+function escape_array($s) {
+    array_walk_recursive($s, 'escape_array_callback');
+    return $s;
+}
+
 ?>

@@ -68,10 +68,35 @@ class MenuController {
 
     function addMenuItem(&$parameters){
 
+        $sql = "SELECT 
+                    Menus.id 
+                FROM 
+                    Menus 
+                WHERE 
+                    Menus.html_id = '" . $parameters['html_id'] . "'";
+        
+        $menu_id_array = Database::query($sql);
+        $menu_id_array = $menu_id_array->next();
+        
+        if($menu_id_array){       
+            $menu_id = $menu_id_array['id'];
+            
+        } else {
+            $sql = "INSERT INTO
+                        Menus (html_id)
+                    VALUES 
+                        ('" . $parameters['html_id'] . "')";
+            
+            Database::query($sql);
+            $menu_id = mysql_insert_id();
+        }
+
+       
+
         $sql = "INSERT INTO
                     Menu_items (name, Menus_id)
                 VALUES 
-                    ('" . $parameters['name'] . "', (SELECT Menus.id FROM Menus WHERE Menus.html_id = '" . $parameters['html_id'] . "'))";
+                    ('" . $parameters['name'] . "'," . $menu_id . " )";
             
         $result = Database::query($sql);
 

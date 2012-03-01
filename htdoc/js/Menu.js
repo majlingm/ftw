@@ -13,14 +13,14 @@ function Menu(menuContainer){
 
 	function init() {
 		gdh.getData('getMenuItems', {'id':menuContainer.attr('id')}, function(data){
-			gdh.getData('getMenuContainer', {'id':menuContainer.attr('id')}, function(containerData){
-				contentContainer = $("#" + containerData.data.container_id);
+			//gdh.getData('getMenuContainer', {'id':menuContainer.attr('id')}, function(containerData){ //should the menucontainer really be fetched from database? 
+				contentContainer = $("#" + menuContainer.attr('data-container')); 
 				tabs = data.data || [];
 				createMenu();
 				createTabs();
-					//visa currentPage med showPage()
+				//visa currentPage med showPage()
 				showPage(0);
-			});
+			//});
 		});
 
 	}
@@ -28,7 +28,6 @@ function Menu(menuContainer){
 	function createTabs(){
 		//skapa alla pages
 		$.each(tabs, function(i, item){
-
 			if(typeof tabs[i].item == 'undefined'){
 				if(prefetch)	
 					tabs[i].item = new Tab(item.name, contentContainer);
@@ -45,24 +44,59 @@ function Menu(menuContainer){
 				menuContainer.html("");
 			
 			var items = $(tabs).map(function(i, item){
-			    return item.hidden != 'true'?$('<li/>').text(item.name).attr('data-pageId', i).get(0):null;
+			    return item.hidden != 'true'?$('<li/>').append($('<span>').text(item.name)).attr('data-pageId', i).get(0):null;
 			});
 
 			items.appendTo(menuContainer);
 			
-			items.click(function(){
-				showPage($(this).attr('data-pageId'));
+
+			menuContainer.delegate(".close", "click", function() {
+  				var item = $(this).parent();
+
+  				if(item.hasClass('new_menu_item')){
+	  				var index = item.attr('index');
+	  				newTabs[index] = false;
+					item.slideUp(400, function(){
+						item.remove();
+					});
+
+  				} else {
+					var name = item.find('span').html();
+					var del = confirm("Are you sure you wan't to delete " + name);
+					
+					if(del){
+						$.get(settings.api, {action:"hideMenuItem", 'name':name}, function(data){
+							console.log('item removed');
+							item.slideUp(400, function(){
+								item.remove();
+							});
+										
+						});
+					}
+  				}
+
+  
 			});
 
+			items.click(function(e){
+				//prevent bubbling
+				if($(e.target).hasClass('close'))
+					return true;
+
+				showPage($(this).attr('data-pageId'));
+			});
 		}
 	}
 
 	function showPage(tabId) {
 		
-		if((currentTab || currentTab == 0) && tabs[currentTab] && tabs[currentTab].item)
+		if(!tabs[tabId])
+			return false;
+		
+		if((currentTab || currentTab == 0) && tabs[currentTab] && tabs[currentTab].item )
 			tabs[currentTab].item.hide();
 		//@TODO may need to add some checks here to control how ofter a user can change the pages, for example if one is already loading while trying to load a second one
-		console.log(tabId);
+		
 		if(tabs[tabId].item){
 			tabs[tabId].item.show();  
 		} else{
@@ -70,9 +104,7 @@ function Menu(menuContainer){
 				tabs[tabId].item.show();
 			});
 		}
-			
-
-
+		
 		currentTab = tabId;
 	}
 
@@ -82,8 +114,13 @@ function Menu(menuContainer){
 	}
 
 	function enterEditMode(){
+		
+		if(editMode)
+			return false;
+
 		editMode = true;
-		$('.new_menu_item').show(); //if we exit and enter edit mode we hide and show the items
+		menuContainer.find('.new_menu_item').show(); //if we exit and enter edit mode we hide and show the items
+		menuContainer.find('li').append($("<div class='close'>")).addClass('editable');
 		addButton.appendTo(menuContainer);
 
 		$.each(tabs, function(i, item){
@@ -95,19 +132,22 @@ function Menu(menuContainer){
 		addButton.click(function(){
 			var closeButton = $("<div class='close'>");
 			var input = $("<input type='text'>");
-			var newTab = $("<li>").attr('class', 'new_menu_item').append(closeButton).append(input);
-			var index = newTabs.push(newTab);
+			var newTab = $("<li>").addClass('new_menu_item').addClass('editable').append(closeButton).append($('<span>').append(input));
+			var index = newTabs.push(newTab) - 1;
+			newTab.attr('data-index', index);
+			
+			//animate the tab
 			newTab.hide();
 			addButton.before(newTab);
 			newTab.slideDown(400);
 
-			closeButton.click(function(){
+			/*closeButton.click(function(){
 				newTabs[index] = false;
+				console.log(newTabs);
 				newTab.slideUp(400, function(){
 					newTab.remove();
 				});
-				
-			});
+			});*/
 
 		});
 	}
@@ -115,7 +155,9 @@ function Menu(menuContainer){
 	function exitEditMode(){
 		editMode = false;
 		addButton.remove();
-		$('.new_menu_item').hide();
+		menuContainer.find('li').removeClass('editable');
+		menuContainer.find('.close').remove();
+		menuContainer.find('.new_menu_item').hide();
 
 		$.each(tabs, function(i, item){
 			if(typeof tabs[i].item != 'undefined' && tabs[i].item && tabs[i].item.enterEditMode){
@@ -125,16 +167,28 @@ function Menu(menuContainer){
 	}
 
 	function save(){
-		var itemsToSave = $('.new_menu_item');
-		$.each(itemsToSave, function(key, item){
+		
+		//save all the tabs
+		$.each(tabs, function(i, item){
+			if(typeof tabs[i].item != 'undefined' && tabs[i].item && tabs[i].item.save){
+				console.log("saving");
+				tabs[i].item.save();
+			}
+		});
+
+		//save all the menu_items
+		$.each(newTabs, function(key, item){
+			
+			if(!item)
+				return true;
+
 			item = $(item);
 			var name = item.find("input").val();
-			console.log("name: " + name);
+
 			if(name){
 				$.get(settings.api, {action:"addMenuItem", name:name, html_id:menuContainer.attr('id')}, function(data){
-					
 					item.removeClass("new_menu_item");
-					item.html(name);
+					item.find('span').html(name);
 					var id = tabs.push({"name":name});
 					item.attr('data-pageId', id - 1);
 					item.click(function(){

@@ -15,6 +15,7 @@ class ContentController {
         
         $sql = "
             SELECT
+               Content.id,
                Content.sort_order,
                content_type.type,
                Content.body
@@ -23,8 +24,11 @@ class ContentController {
             WHERE
                 Menu_items.name = '" . $parameters['name'] . "' 
                 AND Menu_items.id = Content.Menu_items_id
-                AND content_type.id = Content.content_type_id" ;
-
+                AND content_type.id = Content.content_type_id
+                AND Content.hidden IS NULL
+                OR Content.hidden != 'true'" ;
+        
+        
         $result_array = Database::query($sql);
         $menu_items = array();
         while($result = $result_array->next()){
@@ -43,20 +47,60 @@ class ContentController {
 
     function addContent(&$parameters){
 
+        
+        $parameters = escape_array($parameters);
+
         $sql = "INSERT INTO
                     Content (sort_order, body, Menu_items_id, content_type_id)
                 VALUES 
                     (1, 
                     '" . $parameters['body'] . "' ,
-                    (SELECT Menu_items.id FROM Menu_items WHERE Menu_items.name = '" . $parameters['name'] . "'), 
-                    (SELECT content_type.id FROM content_type WHERE content_type.type = '" . $parameters['type'] . "'))";
+                    (SELECT Menu_items.id FROM Menu_items WHERE Menu_items.name = '" . $parameters['name'] . "' AND Menu_items.hidden IS NULL OR Menu_items.hidden != 'true'),  (SELECT content_type.id FROM content_type WHERE content_type.type = '" . $parameters['type'] . "'))";
 
+        echo $sql;
         $result = Database::query($sql);
-        
+     
         if($result) {
             result("Content added");
         } else {
             failed("unable to add content");
+        }
+    }
+
+    function hideContent(&$parameters){
+
+        $sql = "UPDATE
+                    Content
+                SET 
+                    hidden='true'
+                WHERE
+                    id = " . $parameters['id'];
+            
+        $result = Database::query($sql);
+        
+        if($result) {
+            result("Content hidden");
+        } else {
+            failed("unable to hide content");
+        }
+    }
+
+
+     function showContent(&$parameters){
+
+        $sql = "UPDATE
+                    Content
+                SET 
+                    hidden='false'
+                WHERE
+                    id = " . $parameters['id'];
+            
+        $result = Database::query($sql);
+        
+        if($result) {
+            result("Content visible");
+        } else {
+            failed("unable to show content");
         }
     }
 

@@ -186,12 +186,20 @@ function PageHandler(){
 	
 	var menus = [];
 	var menuContainer = "";
+	var editMode = false;
+
+	function init(){
+		
+	}
 
 	function populateMenus(parent, cb) {
 		m = parent.find(".menu");
 		$.each(m, function(i, menu){
 			menus.push(new Menu($(menu)));
 		});	
+
+		/*if(editMode)
+			enterEditMode();*/
 	}
 
 	function save(){

@@ -114,12 +114,6 @@ body {
 	cursor:pointer;
 }
 
-#topbar #login_name button {
-
-
-}
-
-
 #topbar ul {
 	float:right;
 	margin:0px;
@@ -192,9 +186,10 @@ body {
 
 /*Admin - this needs to be altered for every project*/
 
-.new_menu_item {
+.new_menu_item, .editable {
 	position:relative;
 	overflow:hidden;
+	border: 1px dashed gray;
 }
 
 .new_menu_item input {
@@ -207,8 +202,9 @@ body {
 	color: whiteSmoke;
 }
 
-.new_menu_item .close {
+.editable .close {
 	position:absolute;
+	z-index:100;
 	top:5px;
 	right:5px;
 	width:10px;
@@ -228,6 +224,31 @@ body {
 	font-size:24px;
 	font-weight:bold;
 }
+
+.new_content_item {
+	position:relative;
+	overflow:hidden;
+}
+
+.new_content_item textarea{
+	margin:5px 0 0 0;
+	padding:10px;
+	width:778px;
+	height:50px;
+	border-radius:2px;
+	background: whiteSmoke;
+	font-decoration:italic;
+}
+
+
+.new_content_item .close {
+	position:absolute;
+	top:5px;
+	right:3px;
+	width:10px;
+	height:10px;
+	background:red;
+}	
 
 
 
@@ -272,7 +293,7 @@ body {
 }
 
 
-#main_menu {
+#main_menu, #main_menu2 {
 	width:100%;
 	margin:0px;
 	height:60px;
@@ -282,7 +303,7 @@ body {
 	background-image: -webkit-linear-gradient(bottom, rgb(31,33,33) 22%, rgb(19,20,20) 61%, rgb(0,0,0) 94%);
 }
 
-#main_menu li {
+#main_menu li, #main_menu2 li {
 	float:left;
 	height:50px;
 	width:90px;
@@ -297,6 +318,40 @@ body {
 	color:;
 	background: rgba(0,0,0,0.5);
 }
+
+#content #sub_menu {
+	float:left;
+	width:100px;
+	margin:10px;
+	padding:0px;
+	list-style:none;
+	color:whitesmoke;
+	background-image: -webkit-linear-gradient(bottom, rgb(31,33,33) 22%, rgb(19,20,20) 61%, rgb(0,0,0) 94%);
+}
+
+#content #sub_menu li{
+	height:50px;
+	width:90px;
+	padding:5px 5px 5px 5px;
+	text-align:center;
+	line-height:50px;
+	border-radius:10px;
+	cursor:pointer;
+}
+
+#content #sub_content {
+	float:left;
+	width:550px;
+	margin:40px;
+	margin-top:10px;
+	padding:10px;
+	list-style:none;
+	color:black;
+	background: green;
+	min-height:200px;
+}
+
+
 
 #content{
 	width:800px;
