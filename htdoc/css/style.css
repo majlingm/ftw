@@ -1,3 +1,14 @@
+/*
+ * Guidelines for styling
+ * 
+ * 
+ * 
+ */
+
+html, body, #wrapper {
+	height: 100%; /* for sticky footer */
+}
+
 body {
     font-family: Century Gothic, Verdana, Arial, sans-serif;
     background: #ccc; /* Old browsers */
@@ -9,6 +20,7 @@ body {
 	background: -ms-linear-gradient(top, #fff 0%,#bbb 100%); /* IE10+ */
 	background: linear-gradient(top, #fff 0%,#bbb 100%); /* W3C */
 	color: black;
+	min-height:500px;
 }
 
 div,span,p,ul,li,ol,dt,dl,dd,textarea {
@@ -34,6 +46,8 @@ div,span,p,ul,li,ol,dt,dl,dd,textarea {
 	position:relative;
 	max-width:1140px;
 	min-width:900px;
+	
+	height: auto; min-height:100%; /* for sticky footer */
 	padding:10px;
 	margin-left:auto;
 	margin-right:auto;
@@ -60,10 +74,11 @@ div,span,p,ul,li,ol,dt,dl,dd,textarea {
 
 #inner_wrapper {
 	margin-top:40px;
-	margin-bottom:20px;
+	margin-bottom:150px; /* for sticky footer (must be same as footer height) */
 	margin-left:auto;
 	margin-right:auto;
 	padding:10px;	
+	
 	
 	/*
 	1.1 For background around inner wraper
@@ -175,6 +190,9 @@ div,span,p,ul,li,ol,dt,dl,dd,textarea {
 			background: linear-gradient(top, #fff 0%, #ddd 50%,#ccc 51%,#eee 100%); /* W3C */
 		}
 
+
+	/*
+	 * Whant to remove syling on this and syle each added element instead.
 	#inner_wrapper #content{
 		min-height:400px;
 		color:black;
@@ -187,13 +205,32 @@ div,span,p,ul,li,ol,dt,dl,dd,textarea {
 		-moz-box-shadow:0 0 0 1px #666; -webkit-box-shadow:0 0 0 1px #666; box-shadow:0 0 0 1px #666;
 		background-color:#fff;
 	}
-
+	 */
 
 /*
- * Change #sub_menu to .sub_menu
+ * Changes that needs to be done
+ * 
+ * Minimal styling with id, use classes instead.
+ * 
+ * #sub_menu to .sub_menu
+ * #sub_content to .sub_content
+ * 
+ * I want .content_item to have different classes depending on what it contains, 
+ * if it cointans a sub_menu, it would be best for the styling if it would be named .sub_menu_item
  */
+/*
+ * .sub_menu_item {
+	clear:both;	
+}
+ */
+
 .content_item {
 	clear:both;	
+/*
+ 	background:white;
+	border-radius:9px;
+	border:1px solid #999;
+ */
 }
 
 
@@ -203,77 +240,166 @@ div,span,p,ul,li,ol,dt,dl,dd,textarea {
 	font-weight:bold;
 }
 
-
-.sub_content {
-	float:left;
-	width:85%;
-	margin-top:1%;
-	padding:10px;
-	list-style:none;
-	color:black;
-	background: green;
-	min-height:200px;
-}
-
 .content_item .content_item {
 	clear:none;
 }
 
+/*
+ * Menu to the left
+ */
+
+/*
+ * change to .sub_content 
+#sub_content {
+	float:left;
+	width:85%;
+	padding:10px;
+	list-style:none;
+	color:black;
+	min-height:200px;
+	border:1px solid #999;
+	border-radius:0 9px 9px 9px;
+}
+
 .content_item .menu {
 	float:left;
-	width:14%;
-	margin-right:1%;
-	margin-top:1px;
+	width:15%;
+	margin-top:0;
+	margin-right:-1px;
 	padding:0;
 	list-style:none;
 }
 
 .content_item .menu li {
-	padding:3px;
 	border:1px solid #999;
 	margin-bottom:-1px;
-	
 	padding:3px 3px 3px 9px;
-	
-	background: #999; /* Old browsers */
+	background: #999;
+	background: -moz-linear-gradient(left, #bbb 0%, #eee 100%);
+	background: -webkit-gradient(linear, left left, left left, color-stop(0%,#bbb), color-stop(100%,#eee));
+	background: -webkit-linear-gradient(left, #bbb 0%, #eee 100%);
+	background: -o-linear-gradient(left, #bbb 0%, #eee 100%);
+	background: -ms-linear-gradient(left, #bbb 0%, #eee 100%);
+	background: linear-gradient(left, #bbb 0%, #eee 100%);
+	font-size:16px;
+	color:black;
+}
 
-	background: -moz-linear-gradient(left, #bbb 0%, #eee 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left left, left left, color-stop(0%,#bbb), color-stop(100%,#eee)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(left, #bbb 0%, #eee 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(left, #bbb 0%, #eee 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(left, #bbb 0%, #eee 100%); /* IE10+ */
-	background: linear-gradient(left, #bbb 0%, #eee 100%); /* W3C */
+.content_item .menu li:hover {
+	border-color:#777;
+	color:#233b99;
+	background: #ddd;
+	background: -moz-linear-gradient(left, #ddd 0%, #fff 100%);
+	background: -webkit-gradient(linear, left left, left left, color-stop(0%,#ddd), color-stop(100%,#fff));
+	background: -webkit-linear-gradient(left, #ddd 0%, #fff 100%);
+	background: -o-linear-gradient(left, #ddd 0%, #fff 100%);
+	background: -ms-linear-gradient(left, #ddd 0%, #fff 100%);
+	background: linear-gradient(left, #ddd 0%, #fff 100%);
+}
+
+
+.content_item .menu li:first-child { 
+	border-radius:6px 0 0 0;
+}
+.content_item .menu li:last-child { 
+	border-radius:0 0 0 6px;
+}
+ */
+
+/*
+ * Sub Tabs
+ * (change .menu to .sub_tab)
+ */
+.content_item .menu {
+	padding:0;
+	margin:0;
+	list-style:none;
+	
+}
+.content_item .menu li {
+	float:left;
+	border:1px solid #999;
+	min-width:100px;
+	text-align:center;
+
+	border-radius:6px 6px 0 0;
+
+	padding:3px 3px 3px 3px;
+	margin:0 5px -2px 0;
+	
+	background: #999;
+	background: -moz-linear-gradient(top, #eee 0%, #bbb 100%);
+	background: -webkit-gradient(linear, left top, left top, color-stop(0%,#eee), color-stop(100%,#bbb));
+	background: -webkit-linear-gradient(top, #eee 0%, #bbb 100%);
+	background: -o-linear-gradient(top, #eee 0%, #bbb 100%);
+	background: -ms-linear-gradient(top, #eee 0%, #bbb 100%);
+	background: linear-gradient(top, #eee 0%, #bbb 100%);
 	
 	font-size:16px;
 	color:black;
 }
 
-.content_item .menu li:first-child { 
-	border-radius:6px 6px 0 0;
-
-}
-
-.content_item .menu li:last-child { 
-	border-radius:0 0 6px 6px;
-}
-
-
 .content_item .menu li:hover {
-	background-color:#aaa;
 	border-color:#777;
 	color:#233b99;
-	
-	background: #ddd; /* Old browsers */
-	background: -moz-linear-gradient(left, #ddd 0%, #fff 100%); /* FF3.6+ */
-	background: -webkit-gradient(linear, left left, left left, color-stop(0%,#ddd), color-stop(100%,#fff)); /* Chrome,Safari4+ */
-	background: -webkit-linear-gradient(left, #ddd 0%, #fff 100%); /* Chrome10+,Safari5.1+ */
-	background: -o-linear-gradient(left, #ddd 0%, #fff 100%); /* Opera 11.10+ */
-	background: -ms-linear-gradient(left, #ddd 0%, #fff 100%); /* IE10+ */
-	background: linear-gradient(left, #ddd 0%, #fff 100%); /* W3C */
-	
-
+	background: #ccc;
+	background: -moz-linear-gradient(top, #fff 0%, #ccc 100%);
+	background: -webkit-gradient(linear, left top, left top, color-stop(0%,#fff), color-stop(100%,#ccc));
+	background: -webkit-linear-gradient(top, #fff 0%, #ccc 100%);
+	background: -o-linear-gradient(top, #fff 0%, #ccc 100%);
+	background: -ms-linear-gradient(top, #fff 0%, #ccc 100%);
+	background: linear-gradient(top, #fff 0%, #ccc 100%);	
 }
 
-.content_container {
+/*
+ * Change to .sub_tab_content
+ */
+#sub_content {
+	list-style:none;
 	
+	position:relative;
+	clear:both;
+	width:auto;
+	min-height:200px;
+
+	padding:10px;
+	border:1px solid #999;
+	border-radius:0 9px 9px 9px;
+
+	z-index:100;
+	background-color:white;
+	color:black;
+}
+
+/* CLEAR FIX*/
+.clearfix:after {content: ".";
+	display: block;
+	height: 0;
+	clear: both;
+	visibility: hidden;}
+.clearfix {display: inline-block;}
+/* Hides from IE-mac \*/
+* html .clearfix { height: 1%;}
+.clearfix {display: block;}
+/* End hide from IE-mac */
+
+#footer {
+	position: relative;
+	margin-top: -150px; /* negative value of footer height */
+	height: 150px;
+	clear:both;
+	padding:20px;
+	font-size:20px;
+	text-align:center;
+	
+	background: #ccc;
+	background: -moz-linear-gradient(left, #ddd 0%, #fff 50%,#ddd 100%);
+	background: -webkit-gradient(linear, left top, left top, color-stop(0%,#ddd), color-stop(50%,#fff), color-stop(100%,#ddd));
+	background: -webkit-linear-gradient(left, #ddd 0%, #fff 50%,#ddd 100%);
+	background: -o-linear-gradient(left, #ddd 0%, #fff 50%,#ddd 100%);
+	background: -ms-linear-gradient(left, #ddd 0%, #fff 50%,#ddd 100%);
+	background: linear-gradient(left, #ddd 0%, #fff 50%,#ddd 100%);	
+	-moz-box-shadow:0 0 3px 2px #999; -webkit-box-shadow:0 0 3px 2px #999; box-shadow:0 0 3px 2px #999;
+
+	opacity:0.9;
 }

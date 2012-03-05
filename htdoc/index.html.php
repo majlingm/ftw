@@ -51,12 +51,13 @@
 
 	<div id="wrapper">
 		<div id="bg_holder"><img src="htdoc/img/naruto.jpg"></img></div>
-		<div id="inner_wrapper">
+		<div id="inner_wrapper" class="clearfix">
 			<ul id="main_menu" data-container="content" class="menu">
 			</ul>
 
 			<div id="content"></div>
 		</div>
 	</div>
+	<div id="footer">Copyright FTW - 2012</div>
 	</body>
 </html>
