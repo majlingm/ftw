@@ -1,0 +1,265 @@
+/*Login start*/
+
+#login {
+	position:absolute;
+	z-index:10000;
+	width:240px;
+	background:black;
+	border-radius:15px;
+	top:50%;
+	left:50%;
+	margin-left:-100px;
+	margin-top:-60px;
+	display:none;
+	padding:20px;
+}
+
+#login input {
+	width:200px;
+	height:30px;
+	margin-top:10px;
+	border-radius:10px;
+	font-size:20px;
+	color:white;
+	background-image: linear-gradient(bottom, rgb(31,33,33) 22%, rgb(19,20,20) 61%, rgb(0,0,0) 94%);
+	background-image: -o-linear-gradient(bottom, rgb(31,33,33) 22%, rgb(19,20,20) 61%, rgb(0,0,0) 94%);
+	background-image: -moz-linear-gradient(bottom, rgb(31,33,33) 22%, rgb(19,20,20) 61%, rgb(0,0,0) 94%);
+	background-image: -webkit-linear-gradient(bottom, rgb(31,33,33) 22%, rgb(19,20,20) 61%, rgb(0,0,0) 94%);
+	background-image: -ms-linear-gradient(bottom, rgb(31,33,33) 22%, rgb(19,20,20) 61%, rgb(0,0,0) 94%);
+	background-image: -webkit-gradient(
+		linear,
+		left bottom,
+		left top,
+		color-stop(0.22, rgb(31,33,33)),
+		color-stop(0.61, rgb(19,20,20)),
+		color-stop(0.94, rgb(0,0,0))
+	);
+
+}
+
+#login button {
+	float:right;
+	width: 60px;
+	height: 25px;
+	margin-top:5px;
+	color: #fff;
+	text-shadow: rgba(10, 10, 10, 0.5) 1px 2px 2px;
+	text-align: center;
+	overflow: hidden;
+	border-radius: 16px; -moz-border-radius: 16px; -webkit-border-radius: 16px;
+	box-shadow: 0 10px 16px rgba(66, 140, 240, 0.5), inset 0 -8px 12px 0 #6bf, inset 0 -8px 0 8px #48c, inset 0 -35px 15px -10px #7ad;
+	-moz-box-shadow: 0 10px 16px rgba(66, 140, 240, 0.5), inset 0 -8px 12px 0 #6bf, inset 0 -8px 0 8px #48c, inset 0 -35px 15px -10px #7ad;
+	-webkit-box-shadow: 0 10px 16px rgba(66, 140, 240, 0.5), inset 0 -8px 12px 0 #6bf, inset 0 -8px 0 8px #48c, inset 0 -35px 15px -10px #7ad;
+}
+
+/*Login end*/
+
+/*Topbar start*/
+#topbar {
+	display:none;
+	position:fixed;
+	z-index:10000;
+	top:-40px;
+	left:0px;
+	width:100%;
+	height:40px;
+	background: #D2D2D2;
+	-webkit-border-bottom-right-radius: 16px;
+	-webkit-border-bottom-left-radius: 16px;
+	-moz-border-radius-bottomright: 16px;
+	-moz-border-radius-bottomleft: 16px;
+	border-bottom-right-radius: 16px;
+	border-bottom-left-radius: 16px;
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, white), color-stop(1, #C7C6C6));
+	background: -moz-linear-gradient( center top, white 5%, #C7C6C6 100% );
+	-webkit-box-shadow: 0px 2px 2px 0px #6b6b6b;
+	-moz-box-shadow: 0px 1px 1px 0px #6b6b6b;
+	box-shadow: 0px 2px 2px 0px #6b6b6b;
+	opacity:0.9;
+}
+
+#topbar #login_name {
+	float:left;
+	color:black;
+	margin-top:10px;
+	margin-left:40px;
+}
+
+#topbar #logout_button {
+	color:blue;
+	cursor:pointer;
+}
+
+#topbar ul {
+	float:right;
+	margin:0px;
+	height:40px;
+	padding:0px;
+	margin-right:5px;
+	list-style:none;
+}
+
+#topbar ul#toolbox {
+	background:gray;
+	margin:5px;
+	height:30px;
+	border-radius:6px;
+}
+
+#topbar ul#toolbox li {
+	float:left;
+	width:30px;
+	padding:5px 5px 5px 5px;
+	text-align:center;
+	cursor:pointer;
+}
+
+#topbar ul#toolbox li img {
+	width:100%;
+}
+
+
+#topbar ul#admin_menu li {
+	float:left;
+	height:40px;
+	padding:0px 10px 0px 10px;
+	text-align:center;
+	line-height:40px;
+	cursor:pointer;
+	border-left:1px solid gray;
+}
+
+#topbar ul#admin_menu li .current {
+	color:#1753AC;
+}
+
+#topbar ul#admin_menu li:hover {
+	color:blue;
+	/*background:rgba(0,22,22,0.5);*/
+}
+
+/*Topbar end*/
+
+/*Edit toolbar*/
+
+
+/*Edit toolbar end */
+
+/*Admin - this needs to be altered for every project*/
+
+/*
+ * For animation of new menu items
+ */
+.new_menu_item {
+	opacity:0;
+}
+#main_menu li.add {
+	
+}
+
+/*
+ * Styling for making it more clear that items are editable.
+ */
+.menu li.new_menu_item, .menu li.editable {
+	position:relative;
+	overflow:hidden;
+	border: 1px dashed gray;
+}
+
+.menu li.new_menu_item {
+	width:120px;
+}
+
+.content_item .menu li.new_menu_item  {
+	width:auto;
+}
+
+#main_menu li.editable.new_menu_item,#main_menu li.editable {
+	padding:0px;
+	border-style:dashed;
+}
+
+#main_menu li.editable span {
+	display:inline-block;
+	padding:3px 9px;
+}
+
+.new_menu_item input, .editable input {
+	-moz-box-sizing:border-box;-webkit-box-sizing:border-box;box-sizing:border-box;
+	width:100%;
+	margin:0;
+	padding:4px;
+	border:none;
+	
+	text-align:center;
+	font-weight:bold;
+	font-size:17px;
+	background:none;
+}
+
+.content_item .new_menu_item input, .content_item .editable input {
+	padding:0px;
+	font-size:16px;
+	text-align:left;
+}
+
+.editable .close {
+	border-radius:0 0 0 5px;
+}	
+
+.add_content_item {
+	position:relative;
+	overflow:hidden;
+	text-align:center;
+	height:16px;
+	margin:2px 0;
+	line-height:15px;
+	background-color:#000;
+	border-radius:5px;
+	color:whiteSmoke;
+	font-size:24px;
+	font-weight:bold;
+	cursor:pointer;
+}
+.add_content_item:hover {
+	background-color:#233b99;
+	color:yellow;
+}
+
+.new_content_item {
+	position:relative;
+	overflow:hidden;
+}
+.new_content_item textarea {
+	margin:5px 0 0 0;
+	padding:10px 0 0 10px;
+	border-radius:5px;
+	width:100%;
+	max-width:100%;
+	min-width:100%;
+	height:50px;
+	border:1px solid black;	
+	background: whiteSmoke;
+	font-decoration:italic;
+}
+
+.close {
+ 	position:absolute;
+	z-index:100;
+	width:12px;
+	height:12px;
+	top:0px;
+	right:0px;
+	background:darkRed;
+	cursor:pointer;
+}
+
+.close:hover {
+	background-color:red;
+}	
+.new_content_item .close {
+	border-radius:0 3px 0 5px;
+	top:6px;
+	right:1px;
+}	
+/*Admin end*/

@@ -12,7 +12,9 @@
 		<script src="htdoc/js/main.js"></script>
 		<script src="htdoc/js/User.js"></script>
 
+		<link rel="stylesheet" type="text/css" href="htdoc/css/normalize.css" />
 		<link rel="stylesheet" type="text/css" href="htdoc/css/style.css" />
+		<link rel="stylesheet" type="text/css" href="htdoc/css/admin.css" />
 
 	</head>
 	<body>

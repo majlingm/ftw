@@ -8,7 +8,7 @@ function Menu(menuContainer){
 
 	//stuff for edit mode
 	var editMode = false;
-	var addButton = $("<li>").css({"font-size":"24px"}).text("+");
+	var addButton = $("<li>").addClass("add").text("+");
 	var newTabs = new Array();
 
 	function init() {
@@ -132,14 +132,15 @@ function Menu(menuContainer){
 		addButton.click(function(){
 			var closeButton = $("<div class='close'>");
 			var input = $("<input type='text'>");
-			var newTab = $("<li>").addClass('new_menu_item').addClass('editable').append(closeButton).append($('<span>').append(input));
+			var newTab = $("<li>").addClass('new_menu_item').addClass('editable').append(closeButton).append(input);
 			var index = newTabs.push(newTab) - 1;
 			newTab.attr('data-index', index);
 			
 			//animate the tab
-			newTab.hide();
+//			newTab.hide();
 			addButton.before(newTab);
-			newTab.slideDown(400);
+			newTab.animate({ opacity:1 },400);
+//			newTab.slideDown(400);
 
 			/*closeButton.click(function(){
 				newTabs[index] = false;

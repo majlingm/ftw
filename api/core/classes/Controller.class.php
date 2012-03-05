@@ -1,6 +1,6 @@
 <?php
 // Protect from direct access.
-defined('API_GUARD') or die('Skyddad åtkomst');
+defined('API_GUARD') or die('Access denied');
 
 /**
  * Interface, or abstract marker class, for application controllers.

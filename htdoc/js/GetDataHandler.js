@@ -33,7 +33,7 @@ function GetDataHandler(settings){ //@TODO add method to update the instansiated
 							});
 						}
 
-					})	
+					});
 				}, s.update);
 			}
 		});
