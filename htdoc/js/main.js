@@ -187,6 +187,8 @@ function PageHandler(){
 	var menus = [];
 	var menuContainer = "";
 	var editMode = false;
+	var contentViews = {};
+	var menuViews = {};
 
 	function init(){
 		
@@ -195,7 +197,20 @@ function PageHandler(){
 	function populateMenus(parent, cb) {
 		m = parent.find(".menu");
 		$.each(m, function(i, menu){
-			menus.push(new Menu($(menu)));
+			
+			var m = $(menu);
+			var content = m.attr('data-container');
+			
+			if(!contentViews.hasOwnProperty(content)){
+				contentViews[content] = new ContentView($("#"+content));
+			}
+
+			if(!menuViews.hasOwnProperty(m.attr('id'))){
+				menuViews[m.attr('id')] = new MenuView(m);
+			} 
+
+
+			menus.push(new Menu(menuViews[m.attr('id')], contentViews[content]));
 		});	
 
 		/*if(editMode)

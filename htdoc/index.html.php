@@ -6,9 +6,11 @@
 		<script src="htdoc/js/lib/jquery.js"></script>
 		<script src="htdoc/js/GetDataHandler.js"></script>
 		<script src="htdoc/js/settings.js"></script>
-		<script src="htdoc/js/Menu.js"></script>
-		<script src="htdoc/js/Tab.js"></script>
-		<script src="htdoc/js/Content.js"></script>
+		<script src="htdoc/js/MenuView.js"></script>
+		<script src="htdoc/js/ContentView.js"></script>
+		<script src="htdoc/js/Menu_new.js"></script>
+		<script src="htdoc/js/MenuItem.js"></script>
+		<script src="htdoc/js/Content_new.js"></script>
 		<script src="htdoc/js/main.js"></script>
 		<script src="htdoc/js/User.js"></script>
 
