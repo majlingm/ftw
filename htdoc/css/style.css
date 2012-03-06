@@ -2,7 +2,6 @@
  * Guidelines for styling
  * 
  * 
- * 
  */
 
 html, body, #wrapper {
@@ -47,8 +46,8 @@ div,span,p,ul,li,ol,dt,dl,dd,textarea {
 	max-width:1140px;
 	min-width:900px;
 	
+	padding:0 10px;
 	height: auto; min-height:100%; /* for sticky footer */
-	padding:10px;
 	margin-left:auto;
 	margin-right:auto;
 	overflow:hidden;
@@ -79,7 +78,6 @@ div,span,p,ul,li,ol,dt,dl,dd,textarea {
 	margin-right:auto;
 	padding:10px;	
 	
-	
 	/*
 	1.1 For background around inner wraper
 	background: #444;
@@ -94,13 +92,13 @@ div,span,p,ul,li,ol,dt,dl,dd,textarea {
 	*/
 }
 
-
 	#inner_wrapper #main_menu {
 		margin:0px;
 		padding:0px;
 		list-style:none;
 		
 		margin-bottom:50px;
+		
 		/*
 		1.2 For background around menu
 		border-radius:9px;
@@ -115,7 +113,6 @@ div,span,p,ul,li,ol,dt,dl,dd,textarea {
 		-moz-box-shadow:0 0 0 1px #666; -webkit-box-shadow:0 0 0 1px #666; box-shadow:0 0 0 1px #666;
 		*/
 	}
-	
 	
 		#main_menu li {
 			border:1px solid #777;
@@ -144,12 +141,11 @@ div,span,p,ul,li,ol,dt,dl,dd,textarea {
 			 * 1.3 Styling for solid look
 			 */
 			
-			margin:0 0 0 -1px;
-			border-right-size:0px;
-			border-radius:0;
-			
+			margin:0 0 0 -1px;		
 			padding:3px 9px;
 			
+			border-right-size:0px;
+			border-radius:0;
 			
 			background: #ddd; /* Old browsers */
 			/* IE9 SVG, needs conditional override of 'filter' to 'none' */
@@ -160,7 +156,7 @@ div,span,p,ul,li,ol,dt,dl,dd,textarea {
 			background: -ms-linear-gradient(top, #fff 0%, #ddd 50%,#ccc 51%,#eee 100%); /* IE10+ */
 			background: linear-gradient(top, #fff 0%, #ddd 50%,#ccc 51%,#eee 100%); /* W3C */
 			
-
+			-moz-box-shadow:0 0 1px #ccc; -webkit-box-shadow:0 0 1px #ccc; box-shadow:0 0 1px #ccc;
 		}
 		
 		/*
@@ -355,6 +351,7 @@ div,span,p,ul,li,ol,dt,dl,dd,textarea {
 	color:black;
 	
 	-moz-box-shadow:inset 0 0 1px #999; -webkit-box-shadow:inset 0 0 1px #999; box-shadow:inset 0 0 1px #999;
+	-moz-box-shadow:0 0 1px #ccc; -webkit-box-shadow:0 0 1px #ccc; box-shadow:0 0 1px #ccc;
 }
 
 .content_item .menu li:hover {
@@ -410,7 +407,7 @@ div,span,p,ul,li,ol,dt,dl,dd,textarea {
 	background-color:white;
 	color:black;
 	
-
+	-moz-box-shadow:0 0 1px #ccc; -webkit-box-shadow:0 0 1px #ccc; box-shadow:0 0 1px #ccc;
 }
 
 /* CLEAR FIX*/
@@ -442,5 +439,4 @@ div,span,p,ul,li,ol,dt,dl,dd,textarea {
 	background: -ms-linear-gradient(left, #ddd 0%, #fff 50%,#ddd 100%);
 	background: linear-gradient(left, #ddd 0%, #fff 50%,#ddd 100%);	
 	-moz-box-shadow:0 0 3px 2px #999; -webkit-box-shadow:0 0 3px 2px #999; box-shadow:0 0 3px 2px #999;
-	opacity:0.9;
 }
