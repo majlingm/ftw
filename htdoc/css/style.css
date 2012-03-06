@@ -442,6 +442,5 @@ div,span,p,ul,li,ol,dt,dl,dd,textarea {
 	background: -ms-linear-gradient(left, #ddd 0%, #fff 50%,#ddd 100%);
 	background: linear-gradient(left, #ddd 0%, #fff 50%,#ddd 100%);	
 	-moz-box-shadow:0 0 3px 2px #999; -webkit-box-shadow:0 0 3px 2px #999; box-shadow:0 0 3px 2px #999;
-
 	opacity:0.9;
 }

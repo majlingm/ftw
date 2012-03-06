@@ -171,7 +171,7 @@
 }
 
 .content_item .menu li.new_menu_item  {
-	width:auto;
+	/* width:auto; this is not for sub_menu_tab */
 }
 
 #main_menu li.editable.new_menu_item,#main_menu li.editable {
@@ -200,7 +200,7 @@
 .content_item .new_menu_item input, .content_item .editable input {
 	padding:0px;
 	font-size:16px;
-	text-align:left;
+	text-align:center;
 }
 
 .editable .close {
