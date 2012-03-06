@@ -79,6 +79,9 @@ function Menu(menuContainer){
 			});
 
 			items.click(function(e){
+ 				$(this).siblings().removeClass("selected");
+ 				$(this).addClass("selected");
+ 				
 				//prevent bubbling
 				if($(e.target).hasClass('close'))
 					return true;
