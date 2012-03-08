@@ -3,55 +3,39 @@
 #login {
 	position:absolute;
 	z-index:10000;
-	width:240px;
-	background:black;
-	border-radius:15px;
-	top:50%;
+	display:none;
+	top:40%;
 	left:50%;
+	
+	width:240px;
 	margin-left:-100px;
 	margin-top:-60px;
-	display:none;
 	padding:20px;
+	
+	border-radius:15px;
+	border:2px solid #333;
+	background: #bbb;
+	background: -moz-linear-gradient(top, #fff 0%, #bbb 100%);
+	background: -webkit-gradient(linear, left top, left top, color-stop(0%,#fff), color-stop(100%,#ccc));
+	background: -webkit-linear-gradient(left top, #fff 0%, #bbb 100%);
+	background: -o-linear-gradient(top, #fff 0%, #bbb 100%);
+	background: -ms-linear-gradient(top, #fff 0%, #bbb 100%);
+	background: linear-gradient(top, #fff 0%, #bbb 100%);	
+	
+	-moz-box-shadow:inset 0 0 2px 1px #555, 0 0 1px #333; -webkit-box-shadow:inset 0 0 2px 1px #555, 0 0 1px #333; box-shadow:inset 0 0 2px 1px #555, 0 0 1px #333;
 }
 
-#login input {
-	width:200px;
-	height:30px;
+#login input[type="text"],#login input[type="password"] {
 	margin-top:10px;
-	border-radius:10px;
-	font-size:20px;
-	color:white;
-	background-image: linear-gradient(bottom, rgb(31,33,33) 22%, rgb(19,20,20) 61%, rgb(0,0,0) 94%);
-	background-image: -o-linear-gradient(bottom, rgb(31,33,33) 22%, rgb(19,20,20) 61%, rgb(0,0,0) 94%);
-	background-image: -moz-linear-gradient(bottom, rgb(31,33,33) 22%, rgb(19,20,20) 61%, rgb(0,0,0) 94%);
-	background-image: -webkit-linear-gradient(bottom, rgb(31,33,33) 22%, rgb(19,20,20) 61%, rgb(0,0,0) 94%);
-	background-image: -ms-linear-gradient(bottom, rgb(31,33,33) 22%, rgb(19,20,20) 61%, rgb(0,0,0) 94%);
-	background-image: -webkit-gradient(
-		linear,
-		left bottom,
-		left top,
-		color-stop(0.22, rgb(31,33,33)),
-		color-stop(0.61, rgb(19,20,20)),
-		color-stop(0.94, rgb(0,0,0))
-	);
-
+	font-size:18px;
 }
 
-#login button {
-	float:right;
-	width: 60px;
-	height: 25px;
-	margin-top:5px;
-	color: #fff;
-	text-shadow: rgba(10, 10, 10, 0.5) 1px 2px 2px;
-	text-align: center;
-	overflow: hidden;
-	border-radius: 16px; -moz-border-radius: 16px; -webkit-border-radius: 16px;
-	box-shadow: 0 10px 16px rgba(66, 140, 240, 0.5), inset 0 -8px 12px 0 #6bf, inset 0 -8px 0 8px #48c, inset 0 -35px 15px -10px #7ad;
-	-moz-box-shadow: 0 10px 16px rgba(66, 140, 240, 0.5), inset 0 -8px 12px 0 #6bf, inset 0 -8px 0 8px #48c, inset 0 -35px 15px -10px #7ad;
-	-webkit-box-shadow: 0 10px 16px rgba(66, 140, 240, 0.5), inset 0 -8px 12px 0 #6bf, inset 0 -8px 0 8px #48c, inset 0 -35px 15px -10px #7ad;
+#login .buttonApprove {
+	float: right;
+	width: 80px;
+	margin-top: 15px;
+	margin-right: -3px;
 }
-
 /*Login end*/
 
 /*Topbar start*/
@@ -63,26 +47,27 @@
 	left:0px;
 	width:100%;
 	height:40px;
-	background: #D2D2D2;
+	opacity:0.9;
 	-webkit-border-bottom-right-radius: 16px;
 	-webkit-border-bottom-left-radius: 16px;
 	-moz-border-radius-bottomright: 16px;
 	-moz-border-radius-bottomleft: 16px;
 	border-bottom-right-radius: 16px;
 	border-bottom-left-radius: 16px;
+	
+	background: #D2D2D2;
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0.05, white), color-stop(1, #C7C6C6));
 	background: -moz-linear-gradient( center top, white 5%, #C7C6C6 100% );
 	-webkit-box-shadow: 0px 2px 2px 0px #6b6b6b;
 	-moz-box-shadow: 0px 1px 1px 0px #6b6b6b;
 	box-shadow: 0px 2px 2px 0px #6b6b6b;
-	opacity:0.9;
 }
 
 #topbar #login_name {
 	float:left;
-	color:black;
 	margin-top:10px;
 	margin-left:40px;
+	color:black;
 }
 
 #topbar #logout_button {
@@ -194,6 +179,12 @@
 	text-align:center;
 	font-weight:bold;
 	font-size:17px;
+	color:black;
+	
+	background:none;
+}
+
+.new_menu_item input:focus, .editable input:focus {
 	background:none;
 }
 
@@ -209,10 +200,11 @@
 
 .add_content_item {
 	position:relative;
-	overflow:hidden;
-	text-align:center;
 	height:16px;
 	margin:2px 0;
+
+	overflow:hidden;
+	text-align:center;
 	line-height:15px;
 	background-color:#000;
 	border-radius:5px;
@@ -231,16 +223,16 @@
 	overflow:hidden;
 }
 .new_content_item textarea {
-	margin:5px 0 0 0;
-	padding:10px 0 0 10px;
-	border-radius:5px;
 	width:100%;
 	max-width:100%;
 	min-width:100%;
 	height:50px;
+	margin:5px 0 0 0;
+	padding:10px 0 0 10px;
 	border:1px solid black;	
-	background: whiteSmoke;
+	border-radius:5px;
 	font-decoration:italic;
+	background: whiteSmoke;
 }
 
 .close {

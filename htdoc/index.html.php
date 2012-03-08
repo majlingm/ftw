@@ -15,7 +15,9 @@
 		<link rel="stylesheet" type="text/css" href="htdoc/css/normalize.css" />
 		<link rel="stylesheet" type="text/css" href="htdoc/css/style.css" />
 		<link rel="stylesheet" type="text/css" href="htdoc/css/admin.css" />
-
+		<!--[if lt IE 9]>
+		<link rel="stylesheet" type="text/css" href="htdoc/css/ie8_fix.css" />
+		<![endif]-->
 	</head>
 	<body>
 
@@ -31,9 +33,8 @@
 			<li class="create">Create user</li>
 		</ul>
 		<ul id="toolbox">
-			
-			<li id="save"><img src="http://taleist.com/wp-content/uploads/2011/04/ok-256x2561.png" alt="save changes"></img></li>
-			<li id="trash"><img src="http://b.dryicons.com/images/icon_sets/symbolize_icons_set/png/128x128/trash.png" alt="trash"></img></li>
+			<li id="save"><img src="http://taleist.com/wp-content/uploads/2011/04/ok-256x2561.png" alt="save changes"/></li>
+			<li id="trash"><img src="http://b.dryicons.com/images/icon_sets/symbolize_icons_set/png/128x128/trash.png" alt="trash"/></li>
 		</ul>
 	</div>
 	<!-- <div id="toolbar">
@@ -44,13 +45,14 @@
 	</div> -->
 	<div id="lightbox"></div>
 	<div id="login">
-		<input type="text" class="username" />
-		<input type="password" class="password" />
-		<button id="login_button">Login</button>
+		<form method="post">
+			<input type="text" class="input" name="username" placeholder="Username" />
+			<input type="password" class="input" name="password" placeholder="Password" />
+			<input type="submit" id="login_button" class="buttonApprove" value="Login"/>
+		</form>
 	</div>
-
 	<div id="wrapper">
-		<div id="bg_holder"><img src="htdoc/img/naruto.jpg"></img></div>
+		<div id="bg_holder"><img src="htdoc/img/naruto.jpg" alt="background"/></div>
 		<div id="inner_wrapper" class="clearfix">
 			<ul id="main_menu" data-container="content" class="menu">
 			</ul>
