@@ -4,16 +4,28 @@ function Menu(menuView, contentView){
 
 	var contentContainer = "";
 	var menuItems = {};
-	var currentPage = false;
+	window.currentPage = false;
 	var addButton = $("<li>").css({"font-size":"24px"}).text("+");
+	var addCount = 0;
 
 	function init() {
+		
 		gdh.getData('getMenuItems', {'id':menuView.getId()}, function(data){
 			createMenuItems(data.data || []);
-			showPage(0);
-
 		});
 
+		addButton.click(function(){
+			menuItems["noname" + addCount] = new MenuItem({
+					"itemData":false,
+					"menuView":menuView,
+					"contentView":contentView,
+					removeMenuItem:function(name){
+						return function(){ removeMenuItem(name) };
+					}("noname" + addCount)
+			});
+			
+			addCount++;
+		});
 	}
 
 	function createMenuItems(data){
@@ -22,51 +34,65 @@ function Menu(menuView, contentView){
 					"itemData":item,
 					"menuView":menuView,
 					"contentView":contentView,
-					"showPage":showPage
+					removeMenuItem:function(name){
+						return function(){ removeMenuItem(name) };
+					}(item.name)
 				});
 		});	
 	}
 
-	function showPage(name) {
-		if(typeof menuItems[name] !== 'undefined' &&  menuItems[name]) {
-			if(typeof menuItems[name] == 'string') {
-				if(currentPage)
-					menuItems[currentPage].hide();
-				
-				menuItems[name].show();
-				currentPage = name;
-			} else if(typeof menuItems[name] == 'number') {
-				var id = name;
-				var i = 0;
-				
-				$.each(menuItems, function(name, item){
-					
-					if(id == i){
-						if(currentPage)
-							menuItems[currentPage].hide();
-				
-							item.show();
-							currentPage = name;
-					}
-
-					i++;
-				});
-			}
-		}
-	}
-
 	function enterEditMode(){
-		addButton.appendTo(menuContainer);
+		menuView.addItem(addButton);
+		contentView.enableSorting();
+		menuView.enableSorting(function(event, ui){
+			console.log(event);
+			var el = $(ui.item);
+			var name = el.attr('data-name')
+			var prev = el.prev().attr('data-sortOrder') || false;
+			var next = el.next().attr('data-sortOrder') || false;			
+			var sortOrder = 0;
+			
+			console.log(next);
+			console.log(prev);
+
+			if(prev && next){
+				sortOrder = (parseFloat(next) + parseFloat(prev))/2;
+				console.log("hej");
+			} else if(prev && !next){
+				sortOrder = parseFloat(prev) + 0.0001;
+			} else if(!prev && next){
+				sortOrder = parseFloat(next) - 0.0001;
+			} else {
+				sortOrder = 1;
+			}
+						
+			el.attr('data-sortOrder', sortOrder);
+			saveSortOrder(name, sortOrder);
+
+
+		});
+
 		$.each(menuItems, function(name, item){
 			item.enterEditMode();
 		});
 	}
 
+	function saveSortOrder(name, sortOrder){
+		console.log("saving sort order " + name + " " + sortOrder);
+	}
+
 	function exitEditMode(){
 		addButton.detach();
+		menuView.disableSorting();
+		contentView.disableSorting();
 		$.each(menuItems, function(name, item){
 			item.exitEditMode();
 		});
+	}
+
+	function removeMenuItem(name){
+		console.log("removing " + name);
+		delete menuItems[name];
 	}
 
 	function save(){
@@ -74,7 +100,6 @@ function Menu(menuView, contentView){
 			item.save();
 		});
 	}
-
 
 	init();
 

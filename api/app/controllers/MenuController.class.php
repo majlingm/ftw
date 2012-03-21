@@ -94,9 +94,9 @@ class MenuController {
        
 
         $sql = "INSERT INTO
-                    Menu_items (name, Menus_id)
+                    Menu_items (name, Menus_id, sort_order)
                 VALUES 
-                    ('" . $parameters['name'] . "'," . $menu_id . " )";
+                    ('" . $parameters['name'] . "'," . $menu_id . "," . $parameters['sort_order'] . ")";
             
         $result = Database::query($sql);
 

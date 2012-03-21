@@ -4,6 +4,7 @@
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8" /> 
 		<title>FTW</title>	
 		<script src="htdoc/js/lib/jquery.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
 		<script src="htdoc/js/GetDataHandler.js"></script>
 		<script src="htdoc/js/settings.js"></script>
 		<script src="htdoc/js/MenuView.js"></script>

@@ -1,3 +1,6 @@
+//if(!console || !console.log){
+//	console = {"log": function(){} };
+//}
 
 var settings = {
 	"api":"http://localhost:8080/ftw/api/api.php"

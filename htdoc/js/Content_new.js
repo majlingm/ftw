@@ -5,6 +5,12 @@ function Content(menuItem){
 	var el = false;
 	var html = false;
 	var eHtml = false;
+	var closeButton = false;
+	var editButton = false;
+	var saveButton = false;
+	var cancelButton = false;
+	var editMode = false;
+	var data = false;
 	var that = this;
 
 	function init(){
@@ -19,7 +25,7 @@ function Content(menuItem){
 
 		that.prototype = contentTypes[type];
 		*/
-		var data = {
+		data = {
 			"contentData":menuItem.contentData
 		};
 
@@ -27,11 +33,21 @@ function Content(menuItem){
 		el = cContentWrapper(data);
 		html = cHtml(data);
 		eHtml = cEHtml(data);
+		editButton = cEditButton(data);
+		closeButton = cCloseButton(data);
+		saveButton = cSaveButton(data);
+		cancelButton = cCancelButton(data);
+		
+		if(editMode){
+			enterEditMode();;
+		} else {
+			el.append(html);
+		}
 
-		el.append(html);
 	}
 
-	function cContentWrapper() {
+	
+	function cContentWrapper(data) {
 		return  $("<div class='content_item'>");
 	};
 
@@ -39,20 +55,81 @@ function Content(menuItem){
 		return data.contentData.body;
 	}
 
-	function cEHtml(){
-		return $("<textarea>");
+	function cEHtml(data){
+		return $("<textarea>" + data.contentData.body + "</textarea>");
 	}
 
-	function enterEditMode(){
-		html.detach();
-		eHtml.appendTo(el);
+	function cCloseButton(data){
+		return $("<div class='close'></div>");
+	}
 
+	function cCancelButton(data){
+		return $("<div class='cancel'>Cancel</div>");
+	}
+
+	function cSaveButton(data){
+		return $("<div class='save'>Save</div>");
+	}
+
+	function cEditButton(data){
+		return $("<div class='edit'>Edit</div>");
+	}
+
+	function collectSaveData(data){
+		if(data.contentData.body != eHtml.val()){
+			return eHtml.val();
+		} 
+
+		return false;
+	}
+
+	function addEditButton(){
+		el.append(editButton);
+		
+		editButton.click(function(){
+			removeEditButton();
+			enterEditMode();
+		});
+	}
+
+	function removeEditButton(){
+		editButton.detach();
+		/*if(editMode)
+			exitEditMode();*/
+	}
+
+
+	function enterEditMode(){
+		el.addClass('new_content_item');
+		el.html(eHtml);
+		el.append(closeButton);
+		el.append(cancelButton);
+		el.append(saveButton);
+
+		//reset all the events everytime, delegate seems buggy. And using detach instead of remove, removes the events too sometimes.
+		closeButton.click(function(){
+			close();
+		});
+
+		cancelButton.click(function(){
+			eHtml = cEHtml(data);
+			exitEditMode();
+			addEditButton();
+		});
+
+		saveButton.click(function(){
+			save(function(){
+				exitEditMode();
+				addEditButton();
+			});
+		});
 	}
 
 	function exitEditMode(){
-		eHtml.detach();
-		html.appendTo(el);
+		el.removeClass('new_content_item');
+		el.html(html);
 	}
+
 
 	function getEl(){
 		return el;
@@ -66,18 +143,44 @@ function Content(menuItem){
 		return type;
 	}
 
-	function remove(){
-		el.detach();
+	function close(){
+		el.remove();
+		menuItem.removeMe();
+	}
+	
+	function save(saveCb){
+		console.log(menuItem);
+
+		body: "alllllaaaa"
+		id: "27"
+		sort_order: "1"
+		type: "html"
+		var saveData = collectSaveData(data);
+		
+		if(!saveData)
+			return false;
+		
+		//add new post
+		$.get(settings.api, {action:"addContent", 'name':data.contentData.name, 'type':data.contentData.type, 'body':saveData}, function(data2){
+			data.contentData.body = saveData;
+			html = cHtml(data);
+			eHtml = cEHtml(data);
+			if(saveCb)
+				saveCb();
+		});
 	}
 
 
 	init();
 
 	return {
-		"remove":remove,
 		"getType":getType,
 		"getEl":getEl,
-		"getSortOrder":getSortOrder
+		"getSortOrder":getSortOrder,
+		"enterEditMode":enterEditMode,
+		"exitEditMode":exitEditMode,
+		"save":save,
+		"addEditButton":addEditButton
 	};
 
 }

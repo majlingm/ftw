@@ -1,12 +1,13 @@
 
+if(!console || !console.log){
+	console.log = function(){};
+}
+
 var ph = new PageHandler();
 var gdh = new GetDataHandler(dataSettings);
 var user = {};
 
 $(function(){
-
-
-	
 	user = new User(function(){
 		enableKeyShotcut();
 		enableLoginScreen();

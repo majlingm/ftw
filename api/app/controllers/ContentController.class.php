@@ -18,7 +18,8 @@ class ContentController {
                Content.id,
                Content.sort_order,
                content_type.type,
-               Content.body
+               Content.body,
+               Menu_items.name
             FROM
                 Menu_items, Content, content_type
             WHERE
