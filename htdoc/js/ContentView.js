@@ -89,16 +89,28 @@ function ContentView(target){
 
 
 	function show(name, id){
-		target.children("*").detach(); //using detach instead of remove to prevent unintended removal of events and data assigned to the dom element
+		 //using detach instead of remove to prevent unintended removal of events and data assigned to the dom element
+		target.children("*").detach();
 		console.log("------");
 		if(items.hasOwnProperty(name)){
+			
 			$.each(items[name], function(i, data){
 				insertItem(data.getEl(), items[name]);
 			});
+			
+			if(editMode)
+				showAddButton(id);
+			
+			return true;
+		} else {
+			
+			if(editMode)
+				showAddButton(id);
+
+			return false;
 		}
 		
-		if(editMode)
-			showAddButton(id);
+		
 
 	}
 

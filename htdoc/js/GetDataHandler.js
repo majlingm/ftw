@@ -70,10 +70,6 @@ function GetDataHandler(settings){ //@TODO add method to update the instansiated
 		
 	}
 
-	//future use pherhaps
-	function sendData(){
-		
-	}
 
 	//bind an object to given set if data, updating the object everytime the data is updated.
 	function bindTo(dataName, f){
@@ -87,6 +83,20 @@ function GetDataHandler(settings){ //@TODO add method to update the instansiated
 			}
 		}
 	}
+
+	//This will only run once for everytime its attached and only on a true poll not a chached poll
+	function onDataLoaded(dataName, cb){
+		if(typeof settings[dataName].data == 'undefined' || $.isEmptyObject(settings[dataName].data)){
+			//attach the callback
+			settings[dataName].callback = cb;
+		} else {
+			//data is already loaded, run the callback
+			settings[dataName].callback = false;
+			cb();
+		}
+	}
+
+
 
 	function error(message, cb){
 		data = {};
@@ -102,6 +112,15 @@ function GetDataHandler(settings){ //@TODO add method to update the instansiated
 		  settings[dataName].data[key] = data;
 		  settings[dataName].polling[key] = false;
 		  cb(data);
+
+		 if((typeof settings[dataName].callback != 'undefined') && settings[dataName].callback){
+		  	settings[dataName].callback();
+		  	settings[dataName].callback = false;
+		  	/*var cb = settings[dataName].callback;
+		  	settings[dataName].callback = false;
+		  	cb();*/
+		  }
+		
 		}, 'json');
 	}
 
@@ -109,7 +128,8 @@ function GetDataHandler(settings){ //@TODO add method to update the instansiated
 
 	me = {
 		"bindTo":bindTo, 
-		"getData":getData
+		"getData":getData,
+		 "onDataLoaded":onDataLoaded
 	};
 
 

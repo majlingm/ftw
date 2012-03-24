@@ -14,6 +14,10 @@ function Menu(menuView, contentView){
 			createMenuItems(data.data || []);
 		});
 
+		enableAddButton();
+	}
+
+	function enableAddButton(){
 		addButton.click(function(){
 			menuItems["noname" + addCount] = new MenuItem({
 					"itemData":false,
@@ -28,7 +32,7 @@ function Menu(menuView, contentView){
 		});
 	}
 
-	function createMenuItems(data){
+	function createMenuItems(data, cb){
 		$.each(data, function(i, item){
 				menuItems[item.name] = new MenuItem({
 					"itemData":item,
@@ -39,6 +43,11 @@ function Menu(menuView, contentView){
 					}(item.name)
 				});
 		});	
+	}
+
+	function showFirst(cb){
+		//alert(menuView.getFirst());
+		menuItems[menuView.getFirst()].showContent(cb);
 	}
 
 	function enterEditMode(){
@@ -74,6 +83,7 @@ function Menu(menuView, contentView){
 	init();
 
 	return {
+		"showFirst":showFirst,
 		"enterEditMode":enterEditMode,
 		"exitEditMode":exitEditMode,
 		"save":save

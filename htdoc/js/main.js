@@ -12,10 +12,22 @@ $(function(){
 		
 		if(user.isLoggedIn()){
 			showTopBar();
-		}
+			gdh.onDataLoaded('getContentItems', function(){
+				ph.showFirst(function(){
+					console.log("callback");
+					ph.enterEditMode();
+				});
+			});
 
-		ph.populateMenus($('body'));
-		ph.enterEditMode();
+			ph.populateMenus($('body'));
+		} else {
+			gdh.onDataLoaded('getContentItems', function(){
+				ph.showFirst(function(){
+				});	
+			});
+
+			ph.populateMenus($('body'));
+		}
 	});
 
 /*just for fun*/
@@ -89,9 +101,9 @@ $(document).scroll(function(){
 			var password = login.find('.password').val();
 			user.login(username, password, function(success){
 				if(success){
-
 					hideLoginScreen(function(){
 						showTopBar();
+						ph.enterEditMode();
 					});
 				} else {
 					
@@ -110,6 +122,7 @@ $(document).scroll(function(){
 		topBar.find("#logout_button").click(function(){
 			user.logout(function(){
 				hideTopBar();
+				ph.exitEditMode();
 			});
 		});
 
@@ -216,6 +229,7 @@ function PageHandler(){
 			enterEditMode();*/
 	}
 
+
 	function save(){
 		$.each(menus, function(i, menu){
 			menu.save();
@@ -234,8 +248,15 @@ function PageHandler(){
 		});
 	}
 
+	function showFirst(cb){
+		$.each(menus, function(i, menu){
+			menu.showFirst(cb);
+		});
+	}
+
 	return {
 		"populateMenus":populateMenus,
+		"showFirst":showFirst,
 		"enterEditMode":enterEditMode,
 		"exitEditMode":exitEditMode,
 		"save":save

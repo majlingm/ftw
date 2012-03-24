@@ -25,7 +25,7 @@
 			<span id="user">Guest</span> 
 			<span id="logout_button">(Logout)</span>
 		</div>
-		<ul id="admin_menu">
+		<!-- <ul id="admin_menu">
 			<li class="current home">Home</li>
 			<li class="edit">Edit page</li>
 			<li class="list">List users</li>
@@ -35,8 +35,8 @@
 			
 			<li id="save"><img src="http://taleist.com/wp-content/uploads/2011/04/ok-256x2561.png" alt="save changes"></img></li>
 			<li id="trash"><img src="http://b.dryicons.com/images/icon_sets/symbolize_icons_set/png/128x128/trash.png" alt="trash"></img></li>
-		</ul>
-	</div>
+		</ul> -->
+	</div> 
 	<!-- <div id="toolbar">
 		<ul>
 			<li id="save">Save</li>

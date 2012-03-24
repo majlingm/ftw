@@ -12,6 +12,7 @@ function MenuItem(menu){
 	var addButtonId = false;
 	var newItem = false;
 	var editMode = false;
+	var showMeWhenReady = false;
 	
 	function init(){
 		
@@ -107,7 +108,7 @@ function MenuItem(menu){
 
 	function enableClick(){
 		menuItem.click(function(){
-			window.currentPage = name;
+			
 			showContent();
 		});
 	}
@@ -137,10 +138,27 @@ function MenuItem(menu){
 	    $.each(content, function(i, item){
 			menu.contentView.addItem(name, item);
 		});
+
+		if(showMeWhenReady){
+			showContent(showMeWhenReady);
+			//showMeWhenReady = false;
+		}
+			
 	}
 
-	function showContent(){
-		menu.contentView.show(name, addButtonId);
+	function showContent(cb){
+		
+		window.currentPage = name;
+
+		if(!menu.contentView.show(name, addButtonId)){
+			if(cb)
+				showMeWhenReady = cb;
+			else
+				showMeWhenReady = function(){};
+		} else {
+			if(cb)
+				cb();
+		}
 	}
 
 	function removeContent(id){
@@ -248,6 +266,7 @@ function MenuItem(menu){
 	init();
 
 	return {
+		"showContent":showContent,
 		"exitEditMode":exitEditMode,
 		"enterEditMode":enterEditMode,
 		"save":save

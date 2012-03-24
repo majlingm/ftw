@@ -51,6 +51,13 @@ function MenuView(target){
 		
 	}
 
+	function getFirst(){
+		if(items.length > 0)
+			return items[0].attr('data-name');
+		else
+			return false;	
+	}	
+
 	function insertItem(newItem){
 
 		var sortOrder = newItem.attr('data-sortorder') || false;
@@ -129,7 +136,8 @@ function MenuView(target){
 		"enableSorting":enableSorting,
 		"disableSorting":disableSorting,
 		"onDrop":onDrop,
-		"addAddButton":addAddButton
+		"addAddButton":addAddButton,
+		"getFirst":getFirst
 	};
 
 }
