@@ -22,8 +22,13 @@ function ContentView(target){
 			items[name] = new Array();
 		} 
 		console.log(items);
-		return items[name].push(item) - 1;
-	}
+
+		var id = items[name].push(item) - 1;
+		if(item.getEl().attr('data-sortorder'))
+			sortItems(items[name]);
+		
+		return id;
+	}	
 
 
 	function removeItem(name){
@@ -35,6 +40,7 @@ function ContentView(target){
 	}                                             //Addbutton måste göras om :/
 
 	function showAddButton(id){
+		console.log("addbutton: " + id)
 		editMode = true;
 		addButton[id - 1].prependTo(target);
 	}
@@ -45,22 +51,63 @@ function ContentView(target){
 	}
 
 	function showItem(name, id){
-		console.log("showing" + id);
-		target.append(items[name][id].el);
+		insertItem(items[name][id].getEl(), items[name]);
 	}
 
+	function insertItem(newItem, siblings){
+		//console.log("showing" + id);
+		//target.append(items[name][id].getEl());
+		var sortOrder = newItem.attr('data-sortorder') || false;
+		
+		
+				
+		if(siblings.length > 1 && sortOrder){
+			var id = $.inArray(newItem, siblings);
+			
+			if(id > 0){
+				siblings[id - 1].after(newItem);
+			} else {
+				target.append(newItem);
+			}
+
+		} else {
+			if(!sortOrder && siblings.length > 1){
+				var newSortOrder = 1 * siblings[siblings.length - 2].getEl().attr('data-sortorder') + 1;
+				newItem.attr('data-sortorder', newSortOrder);
+				sortItems(siblings);
+				insertItem(newItem, siblings);
+			} else if(!sortOrder && siblings.length <= 1) {
+				newItem.attr('data-sortorder', 1);
+				target.append(newItem);
+			} else {
+				target.append(newItem);
+			}
+		}
+
+	}
+
+
+
 	function show(name, id){
-		target.children("*").detach(); //using detach instead of remove to prevent unintended removal of events
+		target.children("*").detach(); //using detach instead of remove to prevent unintended removal of events and data assigned to the dom element
 		console.log("------");
 		if(items.hasOwnProperty(name)){
 			$.each(items[name], function(i, data){
-				showItem(name, i);
+				insertItem(data.getEl(), items[name]);
 			});
 		}
 		
 		if(editMode)
 			showAddButton(id);
 
+	}
+
+	function sortItems(i){
+		i.sort(function(a, b){
+			return (1 * a.getEl().attr('data-sortorder')) -  (1 * b.getEl().attr('data-sortorder'));
+		});
+
+		return i;
 	}
 
 	function enableSorting(){
@@ -70,7 +117,7 @@ function ContentView(target){
 		
 		sortDrop = function(event, ui){
 			var el = $(ui.item);
-			var name = el.attr('data-name')
+			var id = el.attr('data-id')
 			var prev = el.prev().attr('data-sortOrder') || false;
 			var next = el.next().attr('data-sortOrder') || false;			
 			var sortOrder = 0;
@@ -80,19 +127,26 @@ function ContentView(target){
 
 			if(prev && next){
 				sortOrder = (parseFloat(next) + parseFloat(prev))/2;
-				console.log("hej");
 			} else if(prev && !next){
-				sortOrder = parseFloat(prev) + 0.0001;
+				sortOrder = parseFloat(prev) + 1;
 			} else if(!prev && next){
-				sortOrder = parseFloat(next) - 0.0001;
+				sortOrder = parseFloat(next) / 2;
 			} else {
 				sortOrder = 1;
 			}
 						
 			el.attr('data-sortOrder', sortOrder);
-			//saveSortOrder(name, sortOrder);
+			saveSortOrder(id, sortOrder);
 		};
 	}
+
+	function saveSortOrder(id, sortOrder){
+		$.get(settings.api, {action:"setSortOrder", id: id, sort_order:sortOrder}, function(data){
+			console.log(data);
+		}, "json");
+	}
+
+
 
 	function disableSorting(){
 		target.sortable("disable");

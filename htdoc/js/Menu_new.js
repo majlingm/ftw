@@ -5,7 +5,7 @@ function Menu(menuView, contentView){
 	var contentContainer = "";
 	var menuItems = {};
 	window.currentPage = false;
-	var addButton = $("<li>").css({"font-size":"24px"}).text("+");
+	var addButton = $("<li>").css({"font-size":"24px"}).text("+").attr('data-sortorder', 9999999999);
 	var addCount = 0;
 
 	function init() {
@@ -42,43 +42,13 @@ function Menu(menuView, contentView){
 	}
 
 	function enterEditMode(){
-		menuView.addItem(addButton);
+		menuView.addAddButton(addButton);
 		contentView.enableSorting();
-		menuView.enableSorting(function(event, ui){
-			console.log(event);
-			var el = $(ui.item);
-			var name = el.attr('data-name')
-			var prev = el.prev().attr('data-sortOrder') || false;
-			var next = el.next().attr('data-sortOrder') || false;			
-			var sortOrder = 0;
-			
-			console.log(next);
-			console.log(prev);
-
-			if(prev && next){
-				sortOrder = (parseFloat(next) + parseFloat(prev))/2;
-				console.log("hej");
-			} else if(prev && !next){
-				sortOrder = parseFloat(prev) + 0.0001;
-			} else if(!prev && next){
-				sortOrder = parseFloat(next) - 0.0001;
-			} else {
-				sortOrder = 1;
-			}
-						
-			el.attr('data-sortOrder', sortOrder);
-			saveSortOrder(name, sortOrder);
-
-
-		});
+		menuView.enableSorting();
 
 		$.each(menuItems, function(name, item){
 			item.enterEditMode();
 		});
-	}
-
-	function saveSortOrder(name, sortOrder){
-		console.log("saving sort order " + name + " " + sortOrder);
 	}
 
 	function exitEditMode(){

@@ -54,7 +54,7 @@ class ContentController {
         $sql = "INSERT INTO
                     Content (sort_order, body, Menu_items_id, content_type_id)
                 VALUES 
-                    (1, 
+                    (" . $parameters['sort_order'] . ", 
                     '" . $parameters['body'] . "' ,
                     (SELECT Menu_items.id FROM Menu_items WHERE Menu_items.name = '" . $parameters['name'] . "' AND Menu_items.hidden IS NULL OR Menu_items.hidden != 'true'),  (SELECT content_type.id FROM content_type WHERE content_type.type = '" . $parameters['type'] . "'))";
 
@@ -102,6 +102,26 @@ class ContentController {
             result("Content visible");
         } else {
             failed("unable to show content");
+        }
+    }
+
+    function setSortOrder(&$parameters){
+
+        $sql = "UPDATE
+                    Content
+                SET 
+                    sort_order = " . $parameters['sort_order'] . "
+                WHERE
+                    id = '" . $parameters['id'] . "'";
+        
+        echo $sql;
+
+        $result = Database::query($sql);
+        
+        if($result) {
+            result("sort_order updated");
+        } else {
+            failed("unable to update sort_order");
         }
     }
 

@@ -19,17 +19,45 @@ function MenuItem(menu){
 		editMode = editMode || newItem || false;
 
 		addButtonId = menu.contentView.addAddButton(addButton);
-
-		//delegate event
-		menuItem.on("click", ".close", function(e){
-
-			if(!$(e.currentTarget).hasClass('.close')){
-				close();
-			}
-
+		enableClosing();
+		enableSaving();
+		
+		if(newItem){
+			menuItem.html(menuItemContentChange);
+			menuItem.addClass("new_menu_item editable");
+			menu.menuView.addItem(menuItem, "newItem" + (new Date()).getTime() );
 			return false;
-		});
+		}
 
+		setSortOrder(menu.itemData.sort_order)
+		name = menu.itemData.name;
+		menuItem.attr('data-name', name);
+		menuItemContent = $("<span>" + name + "</span>");
+		menuItemContentEdit = $("<span>" + name + "</span><div class='close'></div>");
+		
+		if(editMode){
+			menuItem.html(menuItemContentEdit);
+		} else {
+			menuItem.html(menuItemContent);
+		}
+		
+		menu.menuView.addItem(menuItem, name);
+
+		enableAddButton();
+		enableClick();
+
+
+		gdh.getData('getContentItems', {'name':name}, function(data){
+			if(data.error != 'true'){
+				createContent(data.data);
+			} else {
+				console.log("no content found");
+			}
+		});
+	}
+
+
+	function enableSaving(){
 		menuItem.on('focus', '.menu_item_input', function(event){
 			
 			var el = $(event.currentTarget);
@@ -46,29 +74,9 @@ function MenuItem(menu){
 				el.unbind("blur");
 			});
 		});
-		
-		if(newItem){
-			menuItem.html(menuItemContentChange);
-			menuItem.addClass("new_menu_item editable");
-			menu.menuView.addItem(menuItem);
-			return false;
-		}
+	}
 
-		name = menu.itemData.name;
-		menuItem.attr('data-name', name);
-		menuItemContent = $("<span>" + name + "</span>");
-		menuItemContentEdit = $("<span>" + name + "</span><div class='close'></div>");
-		
-		if(editMode){
-			menuItem.html(menuItemContentEdit);
-		} else {
-			menuItem.html(menuItemContent);
-		}
-		
-		
-
-		menu.menuView.addItem(menuItem);
-		
+	function enableAddButton(){
 		addButton.click(function(){
 			var i = 0;
 			var id = false;
@@ -84,32 +92,35 @@ function MenuItem(menu){
 					"body":"",
 					"name":name,
 					"type":"html",
-					"sort_order":1,
+					"sort_order":false,
 					"id":false
 				}
 			}, menu));
 			
 			content[i].enterEditMode();
 
-			id = menu.contentView.addItem(name, {"el":content[i].getEl(),
-					   						"sortOrder": content[i].getSortOrder()
-						   				});
+			id = menu.contentView.addItem(name, content[i]);
 			menu.contentView.showItem(name, id);
 			
 		});
+	}
 
-
+	function enableClick(){
 		menuItem.click(function(){
 			window.currentPage = name;
 			showContent();
 		});
+	}
 
-		gdh.getData('getContentItems', {'name':name}, function(data){
-			if(data.error != 'true'){
-				createContent(data.data);
-			} else {
-				console.log("no content found");
+	function enableClosing(){
+		//delegate event
+		menuItem.on("click", ".close", function(e){
+
+			if(!$(e.currentTarget).hasClass('.close')){
+				close();
 			}
+
+			return false;
 		});
 	}
 
@@ -124,9 +135,7 @@ function MenuItem(menu){
 		});
 
 	    $.each(content, function(i, item){
-			menu.contentView.addItem(name, {"el":item.getEl(),
-					   						"sortOrder": item.getSortOrder()
-						   				});
+			menu.contentView.addItem(name, item);
 		});
 	}
 
@@ -143,7 +152,7 @@ function MenuItem(menu){
 		editMode = true;
 
 		if(newItem){
-			menu.menuView.addItem(menuItem);
+			menu.menuView.addItem(menuItem, name);
 		} else {
 			menuItem.html(menuItemContentEdit);
 			menuItem.addClass('editable');
@@ -155,8 +164,6 @@ function MenuItem(menu){
 		$.each(content, function(i, item){
 			item.addEditButton();
 		});
-
-
 	}
 
 	function exitEditMode(){
@@ -208,14 +215,18 @@ function MenuItem(menu){
 	}
 
 	function getSortOrder(){
-		
+		return menuItem.attr('data-sortorder') || 0;
+	}
+
+	function setSortOrder(sortOrder){
+		menuItem.attr('data-sortorder', sortOrder);
 	}
 
 	function saveMe(){
 		
 		if(newItem){
 			
-			$.get(settings.api, {action:"addMenuItem", name: menuItemContentChange.closest("input").val(), html_id:menu.menuView.getId(), sort_order:1}, function(data){
+			$.get(settings.api, {action:"addMenuItem", name: menuItemContentChange.closest("input").val(), html_id:menu.menuView.getId(), sort_order:getSortOrder()}, function(data){
 				reconstruct(
 					{"name":menuItemContentChange.closest("input").val()}
 				);

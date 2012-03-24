@@ -1,7 +1,6 @@
 function Content(menuItem){
 	
 	var type = false;
-	var sortOrder = false;
 	var el = false;
 	var html = false;
 	var eHtml = false;
@@ -16,7 +15,6 @@ function Content(menuItem){
 	function init(){
 		
 		type = menuItem.contentData.type;
-		sortOrder = menuItem.contentData.sort_order;
 
 		/*if(!contentTypes.hasOwnProperty(type)){
 			console.log("content type not supported");
@@ -31,6 +29,13 @@ function Content(menuItem){
 
 
 		el = cContentWrapper(data);
+		
+		//if it doesnt have any sortOrder(meaing its a new item) the contentView will calculate one
+		if(menuItem.contentData.sort_order)
+			el.attr('data-sortorder', menuItem.contentData.sort_order);
+		
+		el.attr('data-id', data.contentData.id);
+
 		html = cHtml(data);
 		eHtml = cEHtml(data);
 		editButton = cEditButton(data);
@@ -136,7 +141,7 @@ function Content(menuItem){
 	}
 
 	function getSortOrder(){
-		return sortOrder;
+		return el.attr('data-sortorder');
 	}
 
 	function getType(){ 
@@ -149,19 +154,14 @@ function Content(menuItem){
 	}
 	
 	function save(saveCb){
-		console.log(menuItem);
 
-		body: "alllllaaaa"
-		id: "27"
-		sort_order: "1"
-		type: "html"
 		var saveData = collectSaveData(data);
 		
 		if(!saveData)
 			return false;
 		
 		//add new post
-		$.get(settings.api, {action:"addContent", 'name':data.contentData.name, 'type':data.contentData.type, 'body':saveData}, function(data2){
+		$.get(settings.api, {action:"addContent", 'name':data.contentData.name, 'type':data.contentData.type, 'body':saveData, 'sort_order':getSortOrder()}, function(data2){
 			data.contentData.body = saveData;
 			html = cHtml(data);
 			eHtml = cEHtml(data);

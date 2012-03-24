@@ -145,4 +145,24 @@ class MenuController {
         }
     }
 
+    function updateSortOrder(&$parameters){
+
+        $sql = "UPDATE
+                    Menu_items
+                SET 
+                    sort_order = " . $parameters['sort_order'] . "
+                WHERE
+                    name = '" . $parameters['name'] . "'";
+        
+        echo $sql;
+
+        $result = Database::query($sql);
+        
+        if($result) {
+            result("sort_order updated");
+        } else {
+            failed("unable to update sort_order");
+        }
+    }
+
 }

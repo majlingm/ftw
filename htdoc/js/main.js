@@ -1,7 +1,4 @@
 
-if(!console || !console.log){
-	console.log = function(){};
-}
 
 var ph = new PageHandler();
 var gdh = new GetDataHandler(dataSettings);
