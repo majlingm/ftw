@@ -15,6 +15,7 @@ $(function(){
 		}
 
 		ph.populateMenus($('body'));
+		ph.enterEditMode();
 	});
 
 /*just for fun*/
@@ -112,7 +113,7 @@ $(document).scroll(function(){
 			});
 		});
 
-		toolboxButtons.click(function(){
+/*		toolboxButtons.click(function(){
 			
 			var clicked = $(this);
 			if(clicked.attr('id') == 'save'){
@@ -133,7 +134,7 @@ $(document).scroll(function(){
 				ph.exitEditMode();
 			}
 						
-		});
+		}); */
 	
 	}	
 

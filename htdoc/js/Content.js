@@ -1,186 +1,186 @@
-function Content(content, target){
+function Content(menuItem){
 	
 	var type = false;
 	var el = false;
+	var html = false;
+	var eHtml = false;
+	var closeButton = false;
+	var editButton = false;
+	var saveButton = false;
+	var cancelButton = false;
+	var editMode = false;
+	var data = false;
+	var that = this;
 
 	function init(){
-		el = $("<div class='content_item'>");
-		type = content.type;
-		appendContent();
+		
+		type = menuItem.contentData.type;
+
+		/*if(!contentTypes.hasOwnProperty(type)){
+			console.log("content type not supported");
+			return false;
+		}
+
+		that.prototype = contentTypes[type];
+		*/
+		data = {
+			"contentData":menuItem.contentData
+		};
+
+
+		el = cContentWrapper(data);
+		
+		//if it doesnt have any sortOrder(meaing its a new item) the contentView will calculate one
+		if(menuItem.contentData.sort_order)
+			el.attr('data-sortorder', menuItem.contentData.sort_order);
+		
+		el.attr('data-id', data.contentData.id);
+
+		html = cHtml(data);
+		eHtml = cEHtml(data);
+		editButton = cEditButton(data);
+		closeButton = cCloseButton(data);
+		saveButton = cSaveButton(data);
+		cancelButton = cCancelButton(data);
+		
+		if(editMode){
+			enterEditMode();;
+		} else {
+			el.append(html);
+		}
+
 	}
 
-	function appendContent(){
+	
+	function cContentWrapper(data) {
+		return  $("<div class='content_item'>");
+	};
+
+	function cHtml(data){
+		return data.contentData.body;
+	}
+
+	function cEHtml(data){
+		return $("<textarea>" + data.contentData.body + "</textarea>");
+	}
+
+	function cCloseButton(data){
+		return $("<div class='close'></div>");
+	}
+
+	function cCancelButton(data){
+		return $("<div class='cancel'>Cancel</div>");
+	}
+
+	function cSaveButton(data){
+		return $("<div class='save'>Save</div>");
+	}
+
+	function cEditButton(data){
+		return $("<div class='edit'>Edit</div>");
+	}
+
+	function collectSaveData(data){
+		if(data.contentData.body != eHtml.val()){
+			return eHtml.val();
+		} 
+
+		return false;
+	}
+
+	function addEditButton(){
+		el.append(editButton);
 		
-		console.log("appending");
-		if(content.type == 'html'){
-			target.append(el.html(content.body));
-		} else if(content.type == 'template') {
-			//do template stuff
-		} else if(content.type == 'submenu') {
-			target.append(el.html(content.body));
-			ph.populateMenus(target, function(){
-				console.log("wtf");
+		editButton.click(function(){
+			removeEditButton();
+			enterEditMode();
+		});
+	}
+
+	function removeEditButton(){
+		editButton.detach();
+		/*if(editMode)
+			exitEditMode();*/
+	}
+
+
+	function enterEditMode(){
+		el.addClass('new_content_item');
+		el.html(eHtml);
+		el.append(closeButton);
+		el.append(cancelButton);
+		el.append(saveButton);
+
+		//reset all the events everytime, delegate seems buggy. And using detach instead of remove, removes the events too sometimes.
+		closeButton.click(function(){
+			close();
+		});
+
+		cancelButton.click(function(){
+			eHtml = cEHtml(data);
+			exitEditMode();
+			addEditButton();
+		});
+
+		saveButton.click(function(){
+			save(function(){
+				exitEditMode();
+				addEditButton();
 			});
-			//do template stuff
-		} else {
-			console.log("The content type '" + type + "' is not supported");
-		}
+		});
+	}
+
+	function exitEditMode(){
+		el.removeClass('new_content_item');
+		el.html(html);
+	}
+
+
+	function getEl(){
+		return el;
+	}
+
+	function getSortOrder(){
+		return el.attr('data-sortorder');
 	}
 
 	function getType(){ 
 		return type;
 	}
 
-	function remove(){
+	function close(){
 		el.remove();
+		menuItem.removeMe();
 	}
-
-	init();
-
-	return {
-		"remove":remove,
-		"getType":getType,
-		"appendContent":appendContent
-	};
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-function ContentEdit(target, addButton, name, inData, saveCb){
 	
-	var containers = {};
-	var type = false;
-	var removed = false;
-	var newContent = inData ? false : true;
+	function save(saveCb){
 
-	
-	function init(){
+		var saveData = collectSaveData(data);
 		
-		containers.target = target;
-		containers.addButton = addButton;
-
-		if(!inData){
-			getTypeFromUser(function(type){
-				if(type == "html"){
-					createHtml();
-				} else if(type == "submenu"){
-					createHtml();
-				}
-			});
-		} else {
-			type = inData.type;
-			if(type == "html"){
-				createHtml();
-			} else if(type == "submenu"){
-				
-			}
-		}
-
-		addClosEvent();
-		
-
-		
-	}
-
-
-	function createHtml(){
-		//if(!inData)
-		
-		containers.closeButton= $("<div class='close'>");
-		containers.content = $("<textarea>");
-		containers.container = $("<div>").attr('class', 'new_content_item').append(containers.closeButton).append(containers.content);
-		containers.container.hide();
-		containers.addButton.after(containers.container);
-		containers.container.slideDown(400)
-		
-		if(inData)
-			containers.content.val(inData.body);
-		
-		/*containers.container.hide();
-		addButton.before(newTab);
-		newTab.slideDown(400);*/
-	}
-
-	function getTypeFromUser(cb){
-		//get desired content type the user want to add
-		//type = "html";
-		type = prompt("type","html");
-
-		cb(type);
-	}
-
-	function addClosEvent() {
-		containers.closeButton.click(function() {
-  				
-  				if(newContent){
-  					containers.container.slideUp(400, function(){
-						containers.container.remove();
-					});
-  				} else {
-					var del = confirm("Are you sure you wan't to delete this content");
-					
-					if(del){
-						$.get(settings.api, {action:"hideContent", 'id':inData.id}, function(data){
-							console.log('content removed');
-							containers.container.slideUp(400, function(){
-								containers.container.remove();
-							});				
-						});
-					}
-  				}
- 
-  
-			});
-	}
-
-	function save(){
-
-		/*if(removed)
-		  return false;*/
-
-		if(inData && containers.content.val() == inData.body){
-			containers.container.remove();
-			saveCb(inData);
+		if(!saveData)
 			return false;
-		}
-		
-		var contentData = { "sort_order":1, 
-					 		"type":type, 
-					 		"body":containers.content.val()};
 		
 		//add new post
-		if(!inData){
-			$.get(settings.api, {action:"addContent", 'name':name, 'type':contentData.type, 'body':contentData.body}, function(data){
-				console.log("saving content...");
-				containers.container.remove();
-				saveCb(contentData);
-			});
-		} else {  //update post
-			
-		}
-
-		
+		$.get(settings.api, {action:"addContent", 'name':data.contentData.name, 'type':data.contentData.type, 'body':saveData, 'sort_order':getSortOrder()}, function(data2){
+			data.contentData.body = saveData;
+			html = cHtml(data);
+			eHtml = cEHtml(data);
+			if(saveCb)
+				saveCb();
+		});
 	}
+
 
 	init();
 
 	return {
-		"save":save
+		"getType":getType,
+		"getEl":getEl,
+		"getSortOrder":getSortOrder,
+		"enterEditMode":enterEditMode,
+		"exitEditMode":exitEditMode,
+		"save":save,
+		"addEditButton":addEditButton
 	};
 
 }
-
-
