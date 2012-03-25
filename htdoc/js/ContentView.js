@@ -24,11 +24,18 @@ function ContentView(target){
 		console.log(items);
 
 		var id = items[name].push(item) - 1;
+		
 		if(item.getEl().attr('data-sortorder'))
 			sortItems(items[name]);
 		
 		return id;
-	}	
+	}
+
+	function addMenuItem(name){
+		if(!items.hasOwnProperty(name)){
+			items[name] = new Array();
+		} 
+	}
 
 
 	function removeItem(name){
@@ -91,9 +98,9 @@ function ContentView(target){
 	function show(name, id){
 		 //using detach instead of remove to prevent unintended removal of events and data assigned to the dom element
 		target.children("*").detach();
-		console.log("------");
+		console.log(items);
 		if(items.hasOwnProperty(name)){
-			
+			console.log("------");
 			$.each(items[name], function(i, data){
 				insertItem(data.getEl(), items[name]);
 			});
@@ -177,7 +184,8 @@ function ContentView(target){
 		"hideAddButton":hideAddButton,
 		"showItem":showItem,
 		"enableSorting":enableSorting,
-		"disableSorting":disableSorting
+		"disableSorting":disableSorting,
+		 "addMenuItem":addMenuItem
 	};
 
 }

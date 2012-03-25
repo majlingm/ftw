@@ -32,6 +32,7 @@ function MenuItem(menu){
 
 		setSortOrder(menu.itemData.sort_order)
 		name = menu.itemData.name;
+		
 		menuItem.attr('data-name', name);
 		menuItemContent = $("<span>" + name + "</span>");
 		menuItemContentEdit = $("<span>" + name + "</span><div class='close'></div>");
@@ -52,6 +53,7 @@ function MenuItem(menu){
 			if(data.error != 'true'){
 				createContent(data.data);
 			} else {
+				createContent({});
 				console.log("no content found");
 			}
 		});
@@ -126,6 +128,9 @@ function MenuItem(menu){
 	}
 
 	function createContent(c){
+		
+		menu.contentView.addMenuItem(name);
+		
 		$.each(c, function(i, c){
 			content[i] = new Content($.extend({
 				removeMe:function(id){
@@ -139,7 +144,12 @@ function MenuItem(menu){
 			menu.contentView.addItem(name, item);
 		});
 
+		/*if($.isEmptyObject(content)){
+			menu.contentView.addItem(name, item);
+		}*/
+
 		if(showMeWhenReady){
+			console.log("showingg....")
 			showContent(showMeWhenReady);
 			//showMeWhenReady = false;
 		}
@@ -147,6 +157,7 @@ function MenuItem(menu){
 	}
 
 	function showContent(cb){
+		
 		
 		window.currentPage = name;
 
