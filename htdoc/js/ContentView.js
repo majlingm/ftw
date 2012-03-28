@@ -5,6 +5,7 @@ function ContentView(target){
 	var addButton = new Array();
 	var editMode = false;
 	var sortDrop = false;
+	var currentPage = false;
 
 	function init(){
 		
@@ -116,6 +117,7 @@ function ContentView(target){
 		console.log(items);
 		if(items.hasOwnProperty(name)){
 			console.log("------");
+			sortItems(items[name]);
 			$.each(items[name], function(i, data){
 				if(typeof data != 'undefined')
 					insertItem(data.getEl(), items[name]);

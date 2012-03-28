@@ -201,7 +201,9 @@ function Content(menuItem){
 		return viewId;
 	}
 
-
+	function getId(){
+		return el.attr('data-id');
+	}
 
 	init();
 
@@ -214,7 +216,9 @@ function Content(menuItem){
 		"save":save,
 		"addEditButton":addEditButton,
 		"setViewId":setViewId,
-		"getViewId":getViewId
+		"getViewId":getViewId,
+		"getId":getId
+
 	};
 
 }
