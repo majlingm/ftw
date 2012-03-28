@@ -87,6 +87,9 @@ $(document).scroll(function(){
 	function enableLoginScreen(){
 		lightbox = $("#lightbox");
 		login = $("#login");
+		login.find("form").click(function() {
+			return false;
+		});
 		
 		login.find("#close").click(function(){
 			hideLoginScreen();
@@ -97,8 +100,8 @@ $(document).scroll(function(){
 		});
 		
 		login.find("#login_button").click(function(){
-			var username = login.find('.username').val();
-			var password = login.find('.password').val();
+			var username = login.find('[name="username"]').val();
+			var password = login.find('[name="password"]').val();
 			user.login(username, password, function(success){
 				if(success){
 					hideLoginScreen(function(){

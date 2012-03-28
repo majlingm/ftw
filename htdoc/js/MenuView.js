@@ -6,7 +6,7 @@ function MenuView(target){
 
 	function init(){
 		
-		target.sortable({ disabled: true, items: 'li.editable'  });
+		target.sortable({ disabled: true, items: 'li.editable', placeholder:'menuitem_sorting_hightlight'  });
 		
 		target.bind("sortupdate", function(event, ui) {
 			if(sortDrop)
@@ -108,6 +108,8 @@ function MenuView(target){
 
 			
 		}
+
+		newItem.fadeIn();
 	}
 
 	function enableSorting(){

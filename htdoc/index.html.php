@@ -15,7 +15,12 @@
 		<script src="htdoc/js/main.js"></script>
 		<script src="htdoc/js/User.js"></script>
 
+		<link rel="stylesheet" type="text/css" href="htdoc/css/normalize.css" />
 		<link rel="stylesheet" type="text/css" href="htdoc/css/style.css" />
+		<link rel="stylesheet" type="text/css" href="htdoc/css/admin.css" />
+		<!--[if lt IE 9]>
+		<link rel="stylesheet" type="text/css" href="htdoc/css/ie8_fix.css" />
+		<![endif]-->
 
 	</head>
 	<body>
@@ -45,19 +50,22 @@
 	</div> -->
 	<div id="lightbox"></div>
 	<div id="login">
-		<input type="text" class="username" />
-		<input type="password" class="password" />
-		<button id="login_button">Login</button>
+		<form method="post">
+			<input type="text" class="input" name="username" placeholder="Username" />
+			<input type="password" class="input" name="password" placeholder="Password" />
+			<input type="submit" id="login_button" class="buttonApprove" value="Login"/>
+		</form>
 	</div>
 
 	<div id="wrapper">
-		<div id="bg_holder"><img src="htdoc/img/naruto.jpg"></img></div>
-		<div id="inner_wrapper">
+		<div id="bg_holder"><img src="htdoc/img/naruto.jpg" alt="background"/></div>
+		<div id="inner_wrapper" class="clearfix">
 			<ul id="main_menu" data-container="content" class="menu">
 			</ul>
 
 			<div id="content"></div>
 		</div>
 	</div>
+	<div id="footer">Copyright FTW - 2012</div>
 	</body>
 </html>

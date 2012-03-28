@@ -9,7 +9,7 @@ function ContentView(target){
 
 	function init(){
 		
-		target.sortable({ disabled: true, items: 'div.content_item' });
+		target.sortable({ disabled: true, items: 'div.content_item', placeholder: "content_sorting_hightlight" });
 		
 		target.bind("sortupdate", function(event, ui) {
 			if(sortDrop)
@@ -117,6 +117,7 @@ function ContentView(target){
 		console.log(items);
 		if(items.hasOwnProperty(name)){
 			console.log("------");
+
 			sortItems(items[name]);
 			$.each(items[name], function(i, data){
 				if(typeof data != 'undefined')
