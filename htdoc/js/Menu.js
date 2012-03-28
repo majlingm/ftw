@@ -14,11 +14,12 @@ function Menu(menuView, contentView){
 			createMenuItems(data.data || []);
 		});
 
-		enableAddButton();
+		//enableAddButton();
 	}
 
 	function enableAddButton(){
 		addButton.click(function(){
+			console.log("Addbuttonclick " + addCount);
 			menuItems["noname" + addCount] = new MenuItem({
 					"itemData":false,
 					"menuView":menuView,
@@ -30,6 +31,10 @@ function Menu(menuView, contentView){
 			
 			addCount++;
 		});
+	}
+
+	function disableAddButton(){
+		addButton.unbind();
 	}
 
 	function createMenuItems(data, cb){
@@ -54,6 +59,7 @@ function Menu(menuView, contentView){
 		menuView.addAddButton(addButton);
 		contentView.enableSorting();
 		menuView.enableSorting();
+		enableAddButton();
 
 		$.each(menuItems, function(name, item){
 			item.enterEditMode();
@@ -64,6 +70,7 @@ function Menu(menuView, contentView){
 		addButton.detach();
 		menuView.disableSorting();
 		contentView.disableSorting();
+		disableAddButton();
 		$.each(menuItems, function(name, item){
 			item.exitEditMode();
 		});
@@ -71,7 +78,8 @@ function Menu(menuView, contentView){
 
 	function removeMenuItem(name){
 		console.log("removing " + name);
-		delete menuItems[name];
+		//menuItems[name] = false;
+		menuView.removeItem(name);
 	}
 
 	function save(){

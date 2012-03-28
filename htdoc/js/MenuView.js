@@ -32,9 +32,6 @@ function MenuView(target){
 		});
 	}
 
-	function removeItem(name){
-
-	}
 
 	/*function show(name){
 		target.html("");
@@ -58,16 +55,40 @@ function MenuView(target){
 			return false;	
 	}	
 
+	function removeItem(name){
+
+		var id = false;
+
+		$.each(items, function(i, item){
+			if(item.attr('data-name') == name)
+				id = i;
+		});
+
+		if(id || id == 0){
+			items.splice(id - 1, 1);
+			sortItems();
+			console.log("item removed")
+		} else {
+			console.log("couldnt find item to remove");
+		}
+
+	}
+
+
 	function insertItem(newItem){
 
+		console.log("inside insert");
 		var sortOrder = newItem.attr('data-sortorder') || false;
 		
 				
 		if(items.length > 1 && (sortOrder) ){
 			
+			console.log("inside insert: first");
 			var id = $.inArray(newItem, items);
 			
+			console.log(id);
 			if(id > 0){
+				console.log(items[id - 1]);
 				items[id - 1].after(newItem);
 			} else {
 				target.prepend(newItem);
@@ -75,11 +96,13 @@ function MenuView(target){
 
 		} else {
 			if(!sortOrder){
+				console.log("inside insert: second");
 				var newSortOrder = 1 * items[items.length - 2].attr('data-sortorder') + 1;
 				newItem.attr('data-sortorder', newSortOrder);
 				sortItems();
 				insertItem(newItem);
 			} else {
+				console.log("inside insert: third");
 				target.prepend(newItem);
 			}
 
@@ -137,7 +160,8 @@ function MenuView(target){
 		"disableSorting":disableSorting,
 		"onDrop":onDrop,
 		"addAddButton":addAddButton,
-		"getFirst":getFirst
+		"getFirst":getFirst,
+		"removeItem":removeItem
 	};
 
 }

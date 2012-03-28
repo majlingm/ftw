@@ -37,9 +37,23 @@ function ContentView(target){
 		} 
 	}
 
+	function removeItem(name, sortOrder){
+		
+		var id = false;
 
-	function removeItem(name){
-		delete items[name];
+		$.each(items[name], function(i, item){
+			if(item.getSortOrder() == sortOrder)
+				id = i;
+		});
+
+		if(id || id == 0){
+			items[name].splice(id, 1);
+			console.log("removed element");
+			return true;
+		} else {
+			console.log("couldn't find element to remove");
+			return false;
+		}
 	}
 
 	function addAddButton(ab){
@@ -62,6 +76,7 @@ function ContentView(target){
 	}
 
 	function insertItem(newItem, siblings){
+		
 		//console.log("showing" + id);
 		//target.append(items[name][id].getEl());
 		var sortOrder = newItem.attr('data-sortorder') || false;
@@ -81,7 +96,7 @@ function ContentView(target){
 			if(!sortOrder && siblings.length > 1){
 				var newSortOrder = 1 * siblings[siblings.length - 2].getEl().attr('data-sortorder') + 1;
 				newItem.attr('data-sortorder', newSortOrder);
-				sortItems(siblings);
+				//sortItems(siblings);
 				insertItem(newItem, siblings);
 			} else if(!sortOrder && siblings.length <= 1) {
 				newItem.attr('data-sortorder', 1);
@@ -102,7 +117,8 @@ function ContentView(target){
 		if(items.hasOwnProperty(name)){
 			console.log("------");
 			$.each(items[name], function(i, data){
-				insertItem(data.getEl(), items[name]);
+				if(typeof data != 'undefined')
+					insertItem(data.getEl(), items[name]);
 			});
 			
 			if(editMode)
@@ -165,8 +181,6 @@ function ContentView(target){
 		}, "json");
 	}
 
-
-
 	function disableSorting(){
 		target.sortable("disable");
 		target.enableSelection();
@@ -185,7 +199,7 @@ function ContentView(target){
 		"showItem":showItem,
 		"enableSorting":enableSorting,
 		"disableSorting":disableSorting,
-		 "addMenuItem":addMenuItem
+		"addMenuItem":addMenuItem,
 	};
 
 }

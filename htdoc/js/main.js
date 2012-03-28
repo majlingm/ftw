@@ -15,7 +15,7 @@ $(function(){
 			gdh.onDataLoaded('getContentItems', function(){
 				ph.showFirst(function(){
 					console.log("callback");
-					ph.enterEditMode();
+					setTimeout(function(){ ph.enterEditMode() }, 1);
 				});
 			});
 

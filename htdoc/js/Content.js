@@ -11,10 +11,15 @@ function Content(menuItem){
 	var editMode = false;
 	var data = false;
 	var that = this;
+	var viewId = false;
+	var newItem = false;
 
 	function init(){
 		
 		type = menuItem.contentData.type;
+		if(!menuItem.contentData.id && menuItem.contentData.id != 0){
+			newItem = true;
+		}
 
 		/*if(!contentTypes.hasOwnProperty(type)){
 			console.log("content type not supported");
@@ -30,10 +35,11 @@ function Content(menuItem){
 
 		el = cContentWrapper(data);
 		
-		//if it doesnt have any sortOrder(meaing its a new item) the contentView will calculate one
+		
 		if(menuItem.contentData.sort_order)
 			el.attr('data-sortorder', menuItem.contentData.sort_order);
 		
+
 		el.attr('data-id', data.contentData.id);
 
 		html = cHtml(data);
@@ -149,8 +155,23 @@ function Content(menuItem){
 	}
 
 	function close(){
-		el.remove();
-		menuItem.removeMe();
+		
+		if(!newItem){
+			var id = menuItem.contentData.id;
+		
+			$.get(settings.api, {action:"hideContent", 'id':id}, function(data){	
+				menuItem.removeMe();
+				el.slideUp(400, function(){
+					el.remove();
+				});						
+			});
+		} else {
+			menuItem.removeMe();
+			el.slideUp(400, function(){
+				el.remove();
+			});	
+		}
+		
 	}
 	
 	function save(saveCb){
@@ -160,15 +181,26 @@ function Content(menuItem){
 		if(!saveData)
 			return false;
 		
-		//add new post
+		//add or update new post
 		$.get(settings.api, {action:"addContent", 'name':data.contentData.name, 'type':data.contentData.type, 'body':saveData, 'sort_order':getSortOrder()}, function(data2){
 			data.contentData.body = saveData;
+			//lägg till id här
 			html = cHtml(data);
 			eHtml = cEHtml(data);
+			newItem = false;
 			if(saveCb)
 				saveCb();
 		});
 	}
+
+	function setViewId(id){
+		viewId = id;
+	}
+
+	function getViewId(){
+		return viewId;
+	}
+
 
 
 	init();
@@ -180,7 +212,9 @@ function Content(menuItem){
 		"enterEditMode":enterEditMode,
 		"exitEditMode":exitEditMode,
 		"save":save,
-		"addEditButton":addEditButton
+		"addEditButton":addEditButton,
+		"setViewId":setViewId,
+		"getViewId":getViewId
 	};
 
 }
