@@ -97,7 +97,10 @@ function MenuView(target){
 		} else {
 			if(!sortOrder){
 				console.log("inside insert: second");
-				var newSortOrder = 1 * items[items.length - 2].attr('data-sortorder') + 1;
+				var newSortOrder = 1;
+				if(items.length > 1)
+					newSortOrder = 1 * items[items.length - 2].attr('data-sortorder') + 1;
+				
 				newItem.attr('data-sortorder', newSortOrder);
 				sortItems();
 				insertItem(newItem);

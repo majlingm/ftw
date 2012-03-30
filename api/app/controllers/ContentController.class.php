@@ -49,7 +49,7 @@ class ContentController {
     function addContent(&$parameters){
 
         
-        $parameters = escape_array($parameters);
+        //$parameters = escape_array($parameters);
 
         $sql = "INSERT INTO
                     Content (sort_order, body, Menu_items_id, content_type_id)

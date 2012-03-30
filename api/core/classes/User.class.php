@@ -55,6 +55,10 @@ class User {
         return  $_SESSION['access_level'];
     }
 
+    function isLoggedIn(){
+        return $_SESSION['logged_in'];
+    }
+
     function logout(){
         $_SESSION['access_level'] = 0;
         $_SESSION['user'] = "";

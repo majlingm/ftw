@@ -29,6 +29,7 @@
 		<div id="login_name">
 			<span id="user">Guest</span> 
 			<span id="logout_button">(Logout)</span>
+			<a href="/ftw/?page=admin">Administrate this shit</a>
 		</div>
 		<!-- <ul id="admin_menu">
 			<li class="current home">Home</li>

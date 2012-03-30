@@ -3,7 +3,7 @@ if(typeof console == 'undefined'){
 }
 
 var settings = {
-	"api":"http://localhost:8080/ftw/api/api.php"
+	"api":"/ftw/api/api.php"
 };
 
 var dataSettings = {
