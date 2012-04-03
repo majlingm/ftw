@@ -9,7 +9,11 @@ function ContentView(target){
 
 	function init(){
 		
-		target.sortable({ disabled: true, items: 'div.content_item', placeholder: "content_sorting_hightlight" });
+		target.sortable({ disabled: true, items: 'div.content_item', placeholder: "content_sorting_hightlight", forcePlaceholderSize: true, cursor: 'move' });
+		
+		target.bind("sortstart", function(event, ui) {
+ 			console.log(ui);
+ 		});
 		
 		target.bind("sortupdate", function(event, ui) {
 			if(sortDrop)
@@ -150,6 +154,7 @@ function ContentView(target){
 
 	function enableSorting(){
 		target.sortable("enable");
+		target.children('div.content_item').addClass('sortable');
 		//target.sortable({ items: 'div.content_item' });
 		target.disableSelection();
 		
@@ -175,6 +180,7 @@ function ContentView(target){
 						
 			el.attr('data-sortOrder', sortOrder);
 			saveSortOrder(id, sortOrder);
+
 		};
 	}
 
@@ -186,6 +192,7 @@ function ContentView(target){
 
 	function disableSorting(){
 		target.sortable("disable");
+		target.children('div.content_item').removeClass('sortable');
 		target.enableSelection();
 		sortDrop = false;
 	}

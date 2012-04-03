@@ -149,12 +149,20 @@
 .content_sorting_hightlight {
 	border: 1px dashed black;
 	background:#FFFACD;
-	min-height:50px;
 }
 
 /*
  *When sorting the menu occures, the placeholder can be styled here
 */
+
+.sortable {
+	cursor:move;
+}
+
+.sortable:hover{
+	border: 1px dashed gray;
+}
+
 .menuitem_sorting_hightlight {
 	/*background:black !important;*/
 }
