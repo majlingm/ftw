@@ -20,3 +20,29 @@ var dataSettings = {
 						 "url":settings.api + "?action=getContentItems"
 				 		}
 };
+
+
+var contentTypes = {
+	"html":{	
+			"cContentWrapper":false,
+			"cHtml":false,
+			"cEHtml":false,
+			"cCloseButton":false,
+			"cEditButton":false,
+			"cSaveButton":false,
+			"cCancelButton":false,
+			"collectSaveData":false,
+			"onload":false
+			},
+	"test":{	
+			"cContentWrapper":false,
+			"cHtml":false,
+			"cEHtml":false,
+			"cCloseButton":false,
+			"cEditButton":false,
+			"cSaveButton":false,
+			"cCancelButton":false,
+			"collectSaveData":false,
+			"onload":false
+			}
+};

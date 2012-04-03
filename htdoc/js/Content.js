@@ -21,19 +21,33 @@ function Content(menuItem){
 			newItem = true;
 		}
 
-		/*if(!contentTypes.hasOwnProperty(type)){
+		if(!contentTypes.hasOwnProperty(type)){
 			console.log("content type not supported");
 			return false;
+		} else {
+			$.each(contentTypes[type], function(name, m){
+				if(m)
+					that[name] = m;
+			});
 		}
 
-		that.prototype = contentTypes[type];
-		*/
+		//
+		
 		data = {
-			"contentData":menuItem.contentData
+			"contentData":menuItem.contentData,
+			"containers":{
+				"el":el,
+				"html":html,
+				"eHtml":eHtml,
+				"closeButton":closeButton,
+				"editButton":editButton,
+				"saveButton":saveButton,
+				"cancelButton":cancelButton
+			}
 		};
 
 
-		el = cContentWrapper(data);
+		el = that.cContentWrapper(data);
 		
 		
 		if(menuItem.contentData.sort_order)
@@ -42,51 +56,54 @@ function Content(menuItem){
 
 		el.attr('data-id', data.contentData.id);
 
-		html = cHtml(data);
-		eHtml = cEHtml(data);
-		editButton = cEditButton(data);
-		closeButton = cCloseButton(data);
-		saveButton = cSaveButton(data);
-		cancelButton = cCancelButton(data);
+		html = that.cHtml(data);
+		eHtml = that.cEHtml(data);
+		editButton = that.cEditButton(data);
+		closeButton = that.cCloseButton(data);
+		saveButton = that.cSaveButton(data);
+		cancelButton = that.cCancelButton(data);
 		
 		if(editMode){
-			enterEditMode();;
+			that.enterEditMode();;
 		} else {
 			el.append(html);
 		}
 
+		if(that.onload)
+			that.onload(data);
+
 	}
 
 	
-	function cContentWrapper(data) {
+	this.cContentWrapper = function(data) {
 		return  $("<div class='content_item'>");
 	};
 
-	function cHtml(data){
+	this.cHtml = function(data){
 		return data.contentData.body;
 	}
 
-	function cEHtml(data){
+	this.cEHtml = function(data){
 		return $("<textarea>" + data.contentData.body + "</textarea>");
 	}
 
-	function cCloseButton(data){
+	this.cCloseButton = function(data){
 		return $("<div class='close'></div>");
 	}
 
-	function cCancelButton(data){
+	this.cCancelButton = function(data){
 		return $("<div class='cancel'>Cancel</div>");
 	}
 
-	function cSaveButton(data){
+	this.cSaveButton = function(data){
 		return $("<div class='save'>Save</div>");
 	}
 
-	function cEditButton(data){
+	this.cEditButton = function(data){
 		return $("<div class='edit'>Edit</div>");
 	}
 
-	function collectSaveData(data){
+	this.collectSaveData = function(data){
 		if(data.contentData.body != eHtml.val()){
 			return eHtml.val();
 		} 
@@ -94,23 +111,23 @@ function Content(menuItem){
 		return false;
 	}
 
-	function addEditButton(){
+	this.addEditButton = function(){
 		el.append(editButton);
 		
 		editButton.click(function(){
-			removeEditButton();
-			enterEditMode();
+			that.removeEditButton();
+			that.enterEditMode();
 		});
 	}
 
-	function removeEditButton(){
+	this.removeEditButton = function(){
 		editButton.detach();
 		/*if(editMode)
 			exitEditMode();*/
 	}
 
 
-	function enterEditMode(){
+	this.enterEditMode = function(){
 		el.addClass('new_content_item');
 		el.html(eHtml);
 		el.append(closeButton);
@@ -119,42 +136,42 @@ function Content(menuItem){
 
 		//reset all the events everytime, delegate seems buggy. And using detach instead of remove, removes the events too sometimes.
 		closeButton.click(function(){
-			close();
+			that.close();
 		});
 
 		cancelButton.click(function(){
-			eHtml = cEHtml(data);
-			exitEditMode();
-			addEditButton();
+			eHtml = that.cEHtml(data);
+			that.exitEditMode();
+			that.addEditButton();
 		});
 
 		saveButton.click(function(){
-			save(function(){
-				exitEditMode();
-				addEditButton();
+			that.save(function(){
+				that.exitEditMode();
+				that.addEditButton();
 			});
 		});
 	}
 
-	function exitEditMode(){
+	this.exitEditMode = function(){
 		el.removeClass('new_content_item');
 		el.html(html);
 	}
 
 
-	function getEl(){
+	this.getEl = function(){
 		return el;
 	}
 
-	function getSortOrder(){
+	this.getSortOrder = function(){
 		return el.attr('data-sortorder');
 	}
 
-	function getType(){ 
+	this.getType = function(){ 
 		return type;
 	}
 
-	function close(){
+	this.close = function(){
 		
 		if(!newItem){
 			var id = menuItem.contentData.id;
@@ -174,7 +191,7 @@ function Content(menuItem){
 		
 	}
 	
-	function save(saveCb){
+	this.save = function(saveCb){
 
 		var saveData = collectSaveData(data);
 		
@@ -185,29 +202,29 @@ function Content(menuItem){
 		$.get(settings.api, {action:"addContent", 'name':data.contentData.name, 'type':data.contentData.type, 'body':saveData, 'sort_order':getSortOrder()}, function(data2){
 			data.contentData.body = saveData;
 			//lägg till id här
-			html = cHtml(data);
-			eHtml = cEHtml(data);
+			html = that.cHtml(data);
+			eHtml = that.cEHtml(data);
 			newItem = false;
 			if(saveCb)
 				saveCb();
 		});
 	}
 
-	function setViewId(id){
+	this.setViewId = function(id){
 		viewId = id;
 	}
 
-	function getViewId(){
+	this.getViewId = function(){
 		return viewId;
 	}
 
-	function getId(){
+	this.getId = function(){
 		return el.attr('data-id');
 	}
 
 	init();
 
-	return {
+	/*return {
 		"getType":getType,
 		"getEl":getEl,
 		"getSortOrder":getSortOrder,
@@ -219,6 +236,6 @@ function Content(menuItem){
 		"getViewId":getViewId,
 		"getId":getId
 
-	};
+	};*/
 
 }
