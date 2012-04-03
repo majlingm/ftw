@@ -3,8 +3,15 @@
 	<head> 
 		<meta http-equiv="Content-type" content="text/html; charset=utf-8" /> 
 		<title>FTW</title>	
+		<link rel="stylesheet" type="text/css" href="htdoc/css/normalize.css" />
+		<link rel="stylesheet/less" type="text/css" href="htdoc/css/functions.less" />
+		<link rel="stylesheet/less" type="text/css" href="htdoc/css/standard.less" />
+		<link rel="stylesheet/less" type="text/css" href="htdoc/css/style.less" />
+		<link rel="stylesheet/less" type="text/css" href="htdoc/css/admin_page.less" />
+		<script src="htdoc/js/lib/less.js"></script>
 		<script src="htdoc/js/lib/jquery.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
+		
 		<script src="htdoc/js/GetDataHandler.js"></script>
 		<script src="htdoc/js/settings.js"></script>
 		<script src="htdoc/js/MenuView.js"></script>
@@ -14,14 +21,9 @@
 		<script src="htdoc/js/Content.js"></script>
 		<script src="htdoc/js/main.js"></script>
 		<script src="htdoc/js/User.js"></script>
-
-		<link rel="stylesheet" type="text/css" href="htdoc/css/normalize.css" />
-		<link rel="stylesheet" type="text/css" href="htdoc/css/style.css" />
-		<link rel="stylesheet" type="text/css" href="htdoc/css/admin.css" />
 		<!--[if lt IE 9]>
 		<link rel="stylesheet" type="text/css" href="htdoc/css/ie8_fix.css" />
 		<![endif]-->
-
 	</head>
 	<body>
 

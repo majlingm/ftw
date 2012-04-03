@@ -1,0 +1,235 @@
+@import "functions.less";
+/*
+ * Standard behaviours
+ */
+*{ 
+  margin:0px;
+  padding:0px;
+}
+html, body, #wrapper {
+  height: 100%; /* for sticky footer */
+}
+body {
+  min-height:500px; 
+  color: black;
+  font-family: Century Gothic, Verdana, Arial, sans-serif;
+  .gradientBackground(#fff,#bbb,100%);
+  background-attachment:fixed;
+}
+div,span,p,ul,li,ol,dt,dl,dd,textarea,input {
+  -moz-box-sizing:border-box;
+  -webkit-box-sizing:border-box;
+  box-sizing:border-box;
+}
+
+/*
+ * Standard styling
+ */
+a:link {text-decoration: none; color: #0C668B}
+a:visited {text-decoration: none; color: #0C668B}
+a:active {text-decoration: none; color: #00CCFF}
+a:hover {text-decoration: underline; color: #00CCFF}
+
+ul { list-style:none; padding:0; }
+/*
+ * Default values
+ */
+.hidden{
+  display:none;
+}
+.left{
+  float:left;
+}
+.right{
+  float:right;
+}
+.draggable{
+  cursor:move;
+}
+.clear {
+  clear:both;
+}
+
+#lightbox {
+  position:absolute;
+  z-index:9999;
+  top:0;
+  left:0;
+  background:white;
+  width:100%;
+  height:100%;
+  opacity:0;
+  display:none;
+}
+
+/*
+ * Buttons
+ */
+.button,.buttonApprove,button,input[type="submit"],input[type="button"] {
+	position:relative;
+	min-width:100px;
+	padding:0.3em 1.6em;
+	margin:0.3em 0.5em 0.3em 0.5em;
+	
+	border-style:solid;
+	border-width:1px;
+	border-color:#333;	
+  .roundedCorners(7px);
+
+	font-size:0.9em;
+	font-weight:bold;
+	text-shadow:0 0 3px #000;
+	color:#fff;
+
+	outline: none;
+	.gradientBackground(#ddd,#aaa);
+	.boxShadowInset(#555,4px,0,0,0);
+	
+  -webkit-transition:text-shadow 0.2s linear;
+  -moz-transition:text-shadow 0.2s linear;
+  -o-transition:text-shadow 0.2s linear;
+  -ms-transition:text-shadow 0.2s linear;
+  transition:text-shadow 0.2s linear;
+    
+  &:hover {
+    color:#fff;
+    text-shadow:1px 1px 1px #333;
+    border-color:#333;
+    .gradientBackground(#bbb,#888); 
+  }
+}
+
+    /*
+     * Alert style (red)
+     */
+    .buttonAlert {
+      .gradientBackground(#f37,#c11,100%);
+    }
+    .buttonAlert:hover {
+      .gradientBackground(#c11,#911,100%);
+    }
+  /*
+   * Approve Style (green)
+   */
+    .buttonApprove {
+    	.gradientBackground(#3e3,#3b3);	
+    }
+    .buttonApprove:hover {
+    	.gradientBackground(#3b3,#273);
+    }
+.selected {
+	top:1px;
+	text-shadow:0 0 1px #fff;
+	border-color:#444 #999 #999 #444;
+}
+
+/*
+ * Form
+ */
+/*
+ * Input values
+ */
+@inputBackgroundColor:#ccc;
+@inputBoxShadowColor:#1F5C9F;
+@inputBorderColor:#999;
+
+input[type="text"],input[type="password"],.input,.inputApproved,.inputDenied {
+  width:100%;
+  padding:0.5em;
+
+  //Chrome normalize
+  outline: none;
+  
+  border-width:1px;
+  border-style:solid;
+  .borderColor(@inputBorderColor);
+  .roundedCorners(6px);
+
+  font-size:1.1em;
+  color:#000;
+
+  .gradientBackground(@inputBackgroundColor,lighten(@inputBackgroundColor,25%),50%);
+  // .boxShadow(darken(@inputBorderColor,10%),1px,0,0,0);
+  //.boxShadowInset(darken(@inputBackgroundColor,50%),1px,0,0,0);
+  .boxShadowInAndOut(darken(@inputBorderColor,10%),1px,0,0,0,lighten(@inputBackgroundColor,10%),2px,1px,0,0);
+  &:hover {
+    .borderColor(darken(@inputBorderColor,15%));
+    .gradientBackground(lighten(@inputBackgroundColor,5%),lighten(@inputBackgroundColor,25%),40%);
+  }
+  &:focus {
+    .borderColor(darken(@inputBorderColor,20%));
+    .gradientBackground(lighten(@inputBackgroundColor,5%),lighten(@inputBackgroundColor,30%),40%);
+  }
+}
+
+input[type="password"].inputApproved,input[type="text"].inputApproved,.inputApproved { 
+  .borderColor(green);
+  &:hover {
+    .borderColor(darken(green,5%));
+  }
+}
+input[type="password"].inputDenied,input[type="text"].inputDenied,.inputDenied { 
+  .borderColor(red);
+  &:hover {
+    .borderColor(darken(red,15%));
+  }
+}
+/*
+ * Placeholders
+ */
+  ::-webkit-input-placeholder {
+     color: #777;
+  }
+  :-moz-placeholder {
+    color: #777;
+  }
+  :-ms-input-placeholder {
+     color: #777;
+  }
+/*
+ * Notification Dialog
+ */
+  .notificationDialog {
+    background-color: white;
+    border: 2px solid blue;
+    padding: 10px;
+    position: fixed;
+    z-index:9999;
+    .roundedCorners(15px);
+  }
+  
+  .notificationDialog.success {
+    border-color:green;
+  }
+  
+  .notificationDialog.error {
+    border-color:red;
+  }
+/*
+ * Footer
+ */
+  // Clear fix for footer
+  .clearfix:after {content: ".";
+    display: block;
+    clear: both;
+    height: 0;
+    visibility: hidden;}
+  .clearfix {display: inline-block;}
+  /* Hides from IE-mac \*/
+  * html .clearfix { height: 1%;}
+  .clearfix {display: block;}
+  /* End hide from IE-mac */
+#footer {
+  position: relative;
+  clear:both;
+  
+  height: 150px;
+  padding:20px;
+  margin-top: -150px; /* negative value of footer height */
+
+  font-size:20px;
+  text-align:center;
+  
+  background: #ccc;
+  -moz-box-shadow:0 0 3px 2px #999; -webkit-box-shadow:0 0 3px 2px #999; box-shadow:0 0 3px 2px #999;
+}

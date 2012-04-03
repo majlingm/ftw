@@ -1,0 +1,89 @@
+/*
+ * Variables
+ * 
+ * RC = Rounded Corners
+ * 
+ * BG = BackGround
+ * B = Border
+ * 
+ * C = Color
+ * CH = Color whhen Hover
+ * W = Width
+ * 
+ */
+@mainColor:#ccc;
+/*
+ * Standard functions
+ */
+
+/*
+ * Border functions
+ */
+  //Styled border
+  .borderColor(@color:#ccc) {
+    border-color:@color darken(@color,15%) darken(@color,15%) @color;
+  }
+  //Rounded corners
+  .roundedCorners (@radius: 5px) {
+    border-radius: @radius;
+    -webkit-border-radius: @radius;
+    -moz-border-radius: @radius;
+  }
+  //Rounded corners mix
+  .roundedCornersMix (@c1: 0,@c2: 0,@c3: 0,@c4: 0) {
+    border-radius:@c1 @c2 @c3 @c4;
+    -webkit-border-radius:@c1 @c2 @c3 @c4;
+    -moz-border-radius:@c1 @c2 @c3 @c4;
+  }
+  //Box shadow
+  .boxShadow(@color:#000,@spread:1px,@hardSpead:0,@top:0,@left:0) {
+  	-moz-box-shadow:@top @left @spread @hardSpead @color;
+  	box-shadow:@top @left @spread @hardSpead @color;
+  	-webkit-box-shadow:@top @left @spread @hardSpead @color;
+  }
+  //Box shadow
+  .boxShadowInset(@color:#000,@spread:1px,@hardSpead:0,@top:0,@left:0) {
+  	-moz-box-shadow:inset @top @left @spread @hardSpead @color;
+  	box-shadow:inset @top @left @spread @hardSpead @color;
+  	-webkit-box-shadow:inset @top @left @spread @hardSpead @color;
+  }
+  
+  //Box shadow
+  .boxShadowInAndOut(@color:#000,@spread:1px,@hardSpead:0,@top:0,@left:0,@insetColor:#000,@insetSpread:1px,@insetHardSpead:0,@insetTop:0,@insetLeft:0) {
+    -moz-box-shadow:@top @left @spread @hardSpead @color,inset @insetTop @insetLeft @insetSpread @insetHardSpead @insetColor;
+    box-shadow:@top @left @spread @hardSpead @color,inset @insetTop @insetLeft @insetSpread @insetHardSpead @insetColor;
+    -webkit-box-shadow:@top @left @spread @hardSpead @color,inset @insetTop @insetLeft @insetSpread @insetHardSpead @insetColor;
+  }
+
+//Gradient Backgroundcolor
+.gradientBackground (@color1:#fff,@color2:#fff,@end:100%) {
+  /* Old browsers */
+	background: @color1;
+
+	 /* FF3.6+ */
+	background: -moz-linear-gradient(top,  @color1 0%, @color2 @end); 
+
+	 /* Chrome,Safari4+ */
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,@color1), color-stop(@end,@color2)); 
+
+	 /* Chrome10+,Safari5.1+ */
+	background: -webkit-linear-gradient(top, @color1 0%,@color2 @end); 
+
+	 /* Opera 11.10+ */
+	background: -o-linear-gradient(top, @color1 0%,@color2 @end); 
+
+	 /* IE10+ */
+	background: -ms-linear-gradient(top, @color1 0%,@color2 @end); 
+
+	 /* WC3 */
+	background: linear-gradient(top, @color1 0%,@color2 @end); 
+
+	/* IE6-8 */	
+	filter:~"progid:DXImageTransform.Microsoft.gradient( startColorstr='@{color1}', endColorstr='@{color2}',GradientType=0)";
+}
+
+.opacity(@opacity) {
+    opacity:@opacity;
+    @var:@opacity*100;
+    filter:alpha(opacity=@var); /* For IE8 and earlier */
+}
