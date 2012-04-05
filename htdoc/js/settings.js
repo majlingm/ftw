@@ -34,9 +34,10 @@ var contentTypes = {
 			"collectSaveData":false,
 			"onload":false
 			},
-	"test":{	
+	"html2":{	
 			"cContentWrapper":false,
-			"cHtml":false,
+			"cHtml":function(data){
+				return '<object width="1100" height="700"> <param name="movie"value="https://www.youtube.com/v/' + data.contentData.body + '?version=3&autohide=1&showinfo=0"></param> <param name="allowScriptAccess" value="always"></param> <embed src="https://www.youtube.com/v/' + data.contentData.body + '?version=3&autohide=1&showinfo=0"type="application/x-shockwave-flash"allowscriptaccess="always" width="1100" height="700"></embed> </object>'; },
 			"cEHtml":false,
 			"cCloseButton":false,
 			"cEditButton":false,

@@ -17,7 +17,8 @@ function Content(menuItem){
 	function init(){
 		
 		type = menuItem.contentData.type;
-		if(!menuItem.contentData.id && menuItem.contentData.id != 0){
+		console.log(menuItem.contentData.id);
+		if(!menuItem.contentData.id && menuItem.contentData.id !== 0){
 			newItem = true;
 		}
 
@@ -193,13 +194,13 @@ function Content(menuItem){
 	
 	this.save = function(saveCb){
 
-		var saveData = collectSaveData(data);
+		var saveData = that.collectSaveData(data);
 		
 		if(!saveData)
 			return false;
 		
 		//add or update new post
-		$.get(settings.api, {action:"addContent", 'name':data.contentData.name, 'type':data.contentData.type, 'body':saveData, 'sort_order':getSortOrder()}, function(data2){
+		$.get(settings.api, {action:"addContent", 'name':data.contentData.name, 'type':data.contentData.type, 'body':saveData, 'sort_order':that.	getSortOrder()}, function(data2){
 			data.contentData.body = saveData;
 			//lägg till id här
 			html = that.cHtml(data);
