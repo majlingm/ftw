@@ -54,8 +54,12 @@
       > div {
         padding:0.6em;
         .roundedCorners(10px);
-        background-color:#ccc;
+        background-color:#fff;
         margin-bottom:1em;
+        // -moz-box-shadow:inset 0 0 1px #999,0 0 1px #ccc; -webkit-box-shadow:inset 0 0 1px #999,0 0 1px #ccc; box-shadow:inset 0 0 1px #999,0 0 1px #ccc;
+  // -moz-box-shadow:inset 0 1px 1px #000,0 0 1px #ccc; -webkit-box-shadow:inset 0 1px 1px #000,0 0 1px #ccc; box-shadow:inset 0 0 2px #000,0 0 1px #ccc;
+        .boxShadowInAndOut(#ccc,1px,0,0,0,#000,2px,0,0,0);
+
       }      
       
       #mediaInformation {
@@ -94,6 +98,8 @@
                   margin:0.2em 0.4em 0.2em 0;
                   background-color:#eee;
                   .roundedCorners(5px);
+                  .boxShadowInAndOut(#ccc,1px,0,0,0,#000,1px,0,0,0);
+
                   span {
                     display:inline-block;
                     padding:0.3em;
@@ -125,6 +131,8 @@
           padding:0.5em;
           .roundedCorners(5px);
           background-color:#eee;
+          .boxShadowInAndOut(#ccc,1px,0,0,0,#999,1px,0,0,0);
+          // -moz-box-shadow:inset 0 0 1px #999,0 0 1px #ccc; -webkit-box-shadow:inset 0 0 1px #999,0 0 1px #ccc; box-shadow:inset 0 0 1px #999,0 0 1px #ccc;
           margin-bottom:0.5em;
         }
         
@@ -175,8 +183,9 @@
       min-height:500px;
       margin:1% 1% 1% 0;   
       .roundedCorners(10px);
-      background-color:#ddd;
-      
+      background-color:#fff;
+      .boxShadowInAndOut(#ccc,1px,0,0,0,#000,2px,0,0,0);
+
       #contentHeader {
         padding:5px 5px 0 5px;
         overflow:hidden;
