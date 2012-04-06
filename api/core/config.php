@@ -23,6 +23,7 @@ define ('FILE_NOT_FOUND', ROOT . '/htdoc/error/404.php');
  */
 define('CLASS_FILE', '.class.php');
 
+
 /**
  * The directory containing core classes. This
  * directory will be placed on the include path.
@@ -52,6 +53,11 @@ define('CLASSES', APP . 'classes/');
  * be placed on the include path.
  */
 define('MODELS', APP.  'models/');
+
+/**
+ * Upload dir
+ */
+define('UPLOAD_DIR', APP . 'upload/');
 
 /**
 *	The salt to be used when crypting passwords
