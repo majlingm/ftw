@@ -67,19 +67,19 @@ ul { list-style:none; padding:0; }
  */
 .button,.buttonApprove,button,input[type="submit"],input[type="button"] {
 	position:relative;
-	min-width:100px;
-	padding:0.3em 1.6em;
-	margin:0.3em 0.5em 0.3em 0.5em;
+	width:auto;
+	padding:0.4em 1.6em 0.3em 1.6em;
+	margin:0.5em 0 0 0;
 	
 	border-style:solid;
 	border-width:1px;
 	border-color:#333;	
   .roundedCorners(7px);
 
-	font-size:0.9em;
+	font-size:0.8em;
 	font-weight:bold;
-	text-shadow:0 0 3px #000;
-	color:#fff;
+  color:#222;
+	text-shadow:1px 1px 1px #ccc;
 
 	outline: none;
 	.gradientBackground(#ddd,#aaa);
@@ -96,6 +96,12 @@ ul { list-style:none; padding:0; }
     text-shadow:1px 1px 1px #333;
     border-color:#333;
     .gradientBackground(#bbb,#888); 
+  }
+  
+  &.selected {
+    top:1px;
+    text-shadow:0 0 1px #fff;
+    border-color:#444 #999 #999 #444;
   }
 }
 
@@ -117,11 +123,7 @@ ul { list-style:none; padding:0; }
     .buttonApprove:hover {
     	.gradientBackground(#3b3,#273);
     }
-.selected {
-	top:1px;
-	text-shadow:0 0 1px #fff;
-	border-color:#444 #999 #999 #444;
-}
+
 
 /*
  * Form
@@ -135,7 +137,7 @@ ul { list-style:none; padding:0; }
 
 input[type="text"],input[type="password"],.input,.inputApproved,.inputDenied {
   width:100%;
-  padding:0.5em;
+  padding:0.3em;
 
   //Chrome normalize
   outline: none;
@@ -145,7 +147,7 @@ input[type="text"],input[type="password"],.input,.inputApproved,.inputDenied {
   .borderColor(@inputBorderColor);
   .roundedCorners(6px);
 
-  font-size:1.1em;
+  font-size:1em;
   color:#000;
 
   .gradientBackground(@inputBackgroundColor,lighten(@inputBackgroundColor,25%),50%);

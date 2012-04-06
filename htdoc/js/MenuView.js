@@ -117,6 +117,7 @@ function MenuView(target){
 
 	function enableSorting(){
 		target.sortable("enable");
+		//target.children('li.editable').addClass('sortable');
 		target.disableSelection();
 		sortDrop = function(event, ui){
 			var el = $(ui.item);
@@ -142,6 +143,7 @@ function MenuView(target){
 
 	function disableSorting(){
 		target.sortable("disable");
+		//target.children('li.editable').removeClass('sortable');
 		target.enableSelection();
 		sortDrop = false;
 	}
