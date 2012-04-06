@@ -16,19 +16,19 @@ $(function () {
     'use strict';
 
     // Initialize the jQuery File Upload widget:
-    $('#fileupload').fileupload();
+    $('#fileupload').fileupload({autoUpload:true});
 
     // Enable iframe cross-domain access via redirect option:
-    $('#fileupload').fileupload(
+    /*$('#fileupload').fileupload(
         'option',
         'redirect',
         window.location.href.replace(
             /\/[^\/]*$/,
             '/cors/result.html?%s'
         )
-    );
+    );*/
 
-    if (window.location.hostname === 'blueimp.github.com') {
+  /*  if (window.location.hostname === 'blueimp.github.com') {
         // Demo settings:
         $('#fileupload').fileupload('option', {
             url: '//jquery-file-upload.appspot.com/',
@@ -60,6 +60,6 @@ $(function () {
                 }
             });
         });
-    }
+    }*/
 
 });
