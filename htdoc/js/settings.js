@@ -3,7 +3,8 @@ if(typeof console == 'undefined'){
 }
 
 var settings = {
-	"api":"/ftw/api/api.php"
+	"api":"/ftw/api/api.php",
+	"button":"/ftw/htdoc/img/buttons/"
 };
 
 var dataSettings = {

@@ -18,6 +18,11 @@ $(function () {
     // Initialize the jQuery File Upload widget:
     $('#fileupload').fileupload({autoUpload:true});
 
+    $('#fileupload').bind('fileuploaddone', function (e, data) {
+        console.log('upload done');
+        console.log(data);
+    })
+
     // Enable iframe cross-domain access via redirect option:
     /*$('#fileupload').fileupload(
         'option',

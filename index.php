@@ -16,10 +16,8 @@ if (isset($_GET['_escaped_fragment_'])) {
 		Dispatcher::fileNotFound(); //Ska denna visas eller är det bättre att köra main.html ur SEO perspektiv? måste undersökas
 	}
 } else if(isset($_GET['page'])){
-	
 	$user = new User();
 	$page = ROOT . '/htdoc/' . $_GET['page'] . '.html.php';
-
 	if(file_exists($page) && $user->isLoggedIn() && $user->getAccessLevel() > 0){
 		include($page);
 		exit;

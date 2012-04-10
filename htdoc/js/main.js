@@ -158,7 +158,7 @@ $(document).scroll(function(){
 		if(topBar){
 			topBar.show();
 			topBar.find("#user").text(user.getUsername());
-			topBar.animate({top:0}, 1000);
+			topBar.find('> div').animate({top:0}, 1000);
 		}
 	}
 
